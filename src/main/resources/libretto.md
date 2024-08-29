@@ -1,4 +1,4 @@
---------- OpenAiChatModel ---------
+ --------- OpenAiChatModel ---------
 
 ### Scene 2: The Heart of the Jungle
 

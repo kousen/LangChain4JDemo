@@ -1,6 +1,5 @@
 package com.kousenit;
 
-import com.kousenit.services.Assistant;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
@@ -11,9 +10,6 @@ import dev.langchain4j.model.anthropic.AnthropicChatModelName;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
-import dev.langchain4j.service.AiServices;
-
-import java.util.List;
 
 public class Conversation {
 
@@ -26,42 +22,6 @@ public class Conversation {
             .apiKey(ApiKeys.ANTHROPIC_API_KEY)
             .modelName(AnthropicChatModelName.CLAUDE_3_SONNET_20240229)
             .build();
-
-    private Assistant createAssistant(ChatLanguageModel model) {
-        return AiServices.builder(Assistant.class)
-                .chatLanguageModel(model)
-                .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-                .build();
-    }
-
-    public List<String> statelessDemo() {
-        String firstAnswer = gpt4o.generate("My name is Inigo Montoya.");
-        String secondAnswer = gpt4o.generate("What's my name?");
-        return List.of(firstAnswer, secondAnswer);
-    }
-
-    public List<String> statefulDemo() {
-        ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
-
-        memory.add(UserMessage.from("My name is Inigo Montoya."));
-        AiMessage response = gpt4o.generate(memory.messages()).content();
-        memory.add(response);
-        String firstAnswer = response.text();
-
-        memory.add(UserMessage.from("What's my name?"));
-        response = gpt4o.generate(memory.messages()).content();
-        memory.add(response);
-        String secondAnswer = response.text();
-
-        return List.of(firstAnswer, secondAnswer);
-    }
-
-    public List<String> statefulDemoWithAssistant(ChatLanguageModel model) {
-        Assistant assistant = createAssistant(model);
-        String firstAnswer = assistant.chat("My name is Inigo Montoya.");
-        String secondAnswer = assistant.chat("What's my name?");
-        return List.of(firstAnswer, secondAnswer);
-    }
 
     public void talkToEachOther() {
         ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);

@@ -1,8 +1,12 @@
 package com.kousenit;
 
+import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
+import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.output.TokenUsage;
 
 // Based on LangChain4J home page example at
 // https://github.com/langchain4j/langchain4j
@@ -16,16 +20,7 @@ public class HelloLangChain {
                 .modelName(OpenAiChatModelName.GPT_4_O)
                 .build();
 
-        System.out.println(model.generate("""
-                Write a cover letter for a Java developer
-                applying for an AI job, but use pirate speak.
-                """));
-
-        System.out.println(model.generate("""
-                I got the job. Now help me write a memo to
-                my boss explaining why I need a medical exemption
-                to work from home because I'm allergic to traffic.
-                """));
+//                """));
 
         /*
         String answer = model.generate("""
@@ -42,5 +37,23 @@ public class HelloLangChain {
         System.out.println(response);
 
          */
+
+        UserMessage userMessage = UserMessage.from("""
+                Hello, my name is Inigo Montoya.
+                """);
+        Response<AiMessage> aiMessage = model.generate(userMessage);
+        //System.out.println(aiMessage);
+        switch (aiMessage.finishReason()) {
+            case STOP -> System.out.println(aiMessage.content().text());
+            case LENGTH -> System.out.println("Token length reached");
+            case TOOL_EXECUTION -> System.out.println("Tool execution needed");
+            case CONTENT_FILTER -> System.out.println("Content filtering required");
+            case OTHER -> System.out.println("Call finished for some other reason");
+        }
+
+        TokenUsage tokenUsage = aiMessage.tokenUsage();
+        System.out.println("Input tokens: " + tokenUsage.inputTokenCount());
+        System.out.println("Output tokens: " + tokenUsage.outputTokenCount());
+        System.out.println("Total tokens: " + tokenUsage.totalTokenCount());
     }
 }
