@@ -21,9 +21,12 @@ public class OpenAiImageModelDemo {
                 .persistTo(Paths.get("src/main/resources"))
                 .build();
         Response<Image> imageResponse = model.generate("""
-                A photo-realistic image of a
-                chicken crossing a road
+                A warrior cat with a sword
+                riding into battle on the
+                back of a dragon
                 """);
         System.out.println(imageResponse.content().url());
+        System.out.println("Revised prompt: " + imageResponse.content().revisedPrompt());
+        System.out.println("Tokens: " + imageResponse.tokenUsage());
     }
 }

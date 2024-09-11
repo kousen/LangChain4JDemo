@@ -34,6 +34,8 @@ public class MYM {
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName("gpt-4o")
                 .temperature(0.3)
+                .logRequests(true)
+                .logResponses(true)
                 .build();
 
         // Load the document
