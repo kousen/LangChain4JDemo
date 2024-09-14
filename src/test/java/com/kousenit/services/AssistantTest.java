@@ -10,7 +10,6 @@ import dev.langchain4j.model.mistralai.MistralAiChatModelName;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
-import dev.langchain4j.model.vertexai.VertexAiGeminiChatModel;
 import dev.langchain4j.service.AiServices;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -130,19 +129,6 @@ class AssistantTest {
                 .build();
         String answer = model.generate(question);
         logger.info("\n%s: %s".formatted("claude-3-haiku", answer));
-        assertThat(answer).contains("3.16");
-    }
-
-    @Test
-    void sqrtSumLetters_vertex_gemini_pro() {
-        // Gemini 1.0 pro model (1.5 not yet available)
-        ChatLanguageModel model = VertexAiGeminiChatModel.builder()
-                .project("gemini-demos-415920")
-                .location("us-central1")
-                .modelName("gemini-pro")
-                .build();
-        String answer = model.generate(question);
-        logger.info("\nGemini-pro: %s".formatted(answer));
         assertThat(answer).contains("3.16");
     }
 

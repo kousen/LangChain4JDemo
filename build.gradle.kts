@@ -5,18 +5,16 @@ plugins {
 group = "com.kousenit"
 version = "1.0-SNAPSHOT"
 
-val langchain4jVersion by extra("0.33.0")
+val langchain4jVersion by extra("0.34.0")
 
 dependencies {
     // LangChain4J
     implementation("dev.langchain4j:langchain4j:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-open-ai:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-mistral-ai:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-vertex-ai:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-vertex-ai-gemini:${langchain4jVersion}")
+    implementation("dev.langchain4j:langchain4j-google-ai-gemini:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-ollama:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-anthropic:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-easy-rag:${langchain4jVersion}")
 
     // Make CVE issues go away
     implementation("org.apache.james:apache-mime4j-core:0.8.11")
