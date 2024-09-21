@@ -1,6 +1,8 @@
- --------- OpenAiChatModel ---------
-
 ### Scene 2: The Heart of the Jungle
+
+> **Author: OpenAiChatModel**
+
+![](scene_2_illustration.png)
 
 *The curtain rises to reveal a lush, overgrown jungle setting. The sound of exotic birds and distant waterfalls fills the air. In the middle of the stage, a clearing is visible with ancient, vine-covered ruins hinting at the lost city of Hartford. The soprano, **Elena**, dressed in rugged explorer's attire, is carefully examining an old map. The tenor, **Rafael**, barefoot and adorned with natural elements, is composing music on a makeshift wooden instrument. They are completely absorbed in their tasks.*
 
@@ -66,9 +68,11 @@ Their journey to Hartford we shall end.
 
 *Curtain falls.*
 
---------- AnthropicChatModel ---------
-
 ### Scene 3: The Enchanted Glade
+
+> **Author: AnthropicChatModel**
+
+![](scene_3_illustration.png)
 
 *The curtain rises to reveal a breathtaking glade deep within the jungle. Vibrant flowers bloom along the forest floor, and a small, crystal-clear waterfall cascades into a tranquil pool. Elena and Rafael stumble into the glade, out of breath from their escape.*
 
@@ -147,9 +151,11 @@ And together, we shall find the strength to overcome.
 
 *They clasp hands tightly, steeling themselves for the challenges ahead. The curtain falls as the mechanical hum of the robot grows ever closer.*
 
---------- OpenAiChatModel ---------
-
 ### Scene 4: The Confrontation
+
+> **Author: OpenAiChatModel**
+
+![](scene_4_illustration.png)
 
 *The curtain rises to reveal a more treacherous part of the jungle. Thick vines hang low, and the ground is uneven and rocky. Elena and Rafael navigate carefully, their faces set with determination. The distant sound of the robot's mechanical hum grows louder, signaling that Victor is closing in on them. Suddenly, they reach a steep cliff overlooking the remnants of an ancient city—Hartford. The ruins are partially hidden by dense foliage, but the outlines of grand structures can be seen.*
 
@@ -233,9 +239,11 @@ We'll unveil the secrets of this land.
 
 *The curtain falls as the sun begins to set, casting a golden glow over the lost city of Hartford, symbolizing a new beginning filled with hope and discovery.*
 
---------- AnthropicChatModel ---------
-
 ### Scene 5: The Heart of Hartford
+
+> **Author: AnthropicChatModel**
+
+![](scene_5_illustration.png)
 
 *The curtain rises to reveal the breathtaking ruins of Hartford, the lost city now bathed in the warm glow of the setting sun. Elena, Rafael, and Victor stand in awe, taking in the grandeur of the ancient structures around them. Remnants of grand temples, crumbling statues, and intricate carvings hint at a once-thriving civilization.*
 
@@ -315,9 +323,11 @@ As you share its treasures far and wide.
 
 *The spirit begins to fade, but its voice echoes through the ancient city.*
 
---------- OpenAiChatModel ---------
-
 ### Scene 6: The Revelation
+
+> **Author: OpenAiChatModel**
+
+![](scene_6_illustration.png)
 
 *The curtain rises to reveal the interior of the central pyramid. The walls are covered in ancient carvings and murals depicting scenes of Hartford's past. A grand altar stands at the center, adorned with relics and artifacts. Elena, Rafael, and Victor enter, their faces filled with awe and reverence.*
 
