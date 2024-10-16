@@ -9,9 +9,6 @@ import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.service.AiServices;
 import org.junit.jupiter.api.Test;
@@ -23,15 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ConversationTest {
     private final Conversation conversation = new Conversation();
 
-    public final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
-            .apiKey(ApiKeys.OPENAI_API_KEY)
-            .modelName(OpenAiChatModelName.GPT_4_O)
-            .build();
+    public final ChatLanguageModel gpt4o = AiModels.GPT_4_O;
 
-    public final ChatLanguageModel gemini = GoogleAiGeminiChatModel.builder()
-            .apiKey(ApiKeys.GOOGLEAI_API_KEY)
-            .modelName("gemini-1.5-flash")
-            .build();
+    public final ChatLanguageModel gemini = AiModels.GEMINI_FLASH;
 
     @Test
     void statelessDemo() {

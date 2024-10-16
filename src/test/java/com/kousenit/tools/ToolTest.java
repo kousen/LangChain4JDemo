@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ToolTest {
     private final Assistant assistant = AiServices.builder(Assistant.class)
-            .chatLanguageModel(AiModels.OPENAI_CHAT_MODEL)
+            .chatLanguageModel(AiModels.GPT_4_O)
             .tools(new Calculator())
             //.chatMemory(MessageWindowChatMemory.withMaxMessages(10))
             .build();

@@ -2,20 +2,15 @@ package com.kousenit;
 
 import dev.langchain4j.data.image.Image;
 import dev.langchain4j.data.message.*;
-import dev.langchain4j.model.anthropic.AnthropicChatModel;
-import dev.langchain4j.model.anthropic.AnthropicChatModelName;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.model.image.ImageModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModel;
-import dev.langchain4j.model.mistralai.MistralAiChatModelName;
-import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.model.openai.OpenAiImageModel;
 import dev.langchain4j.model.openai.OpenAiImageModelName;
 import dev.langchain4j.model.output.Response;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -25,26 +20,16 @@ import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.stream.Stream;
 
+@EnabledIfEnvironmentVariable(named = "OPENAI_API_KEY", matches = ".*")
+@EnabledIfEnvironmentVariable(named = "GOOGLEAI_API_KEY", matches = ".*")
+@EnabledIfEnvironmentVariable(named = "ANTHROPIC_API_KEY", matches = ".*")
+@EnabledIfEnvironmentVariable(named = "MISTRAL_API_KEY", matches = ".*")
 public class CthulhuTest {
-    private static final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
-            .apiKey(System.getenv("OPENAI_API_KEY"))
-            .modelName(OpenAiChatModelName.GPT_4_O)
-            .build();
 
-    private static final ChatLanguageModel gemini = GoogleAiGeminiChatModel.builder()
-            .apiKey(System.getenv("GOOGLEAI_API_KEY"))
-            .modelName("gemini-1.5-flash")
-            .build();
-
-    private static final ChatLanguageModel claude = AnthropicChatModel.builder()
-            .apiKey(System.getenv("ANTHROPIC_API_KEY"))
-            .modelName(AnthropicChatModelName.CLAUDE_3_OPUS_20240229)
-            .build();
-
-    private static final ChatLanguageModel mistral = MistralAiChatModel.builder()
-            .apiKey(System.getenv("MISTRAL_API_KEY"))
-            .modelName(MistralAiChatModelName.MISTRAL_LARGE_LATEST)
-            .build();
+    private static final ChatLanguageModel gpt4o = AiModels.GPT_4_O;
+    private static final ChatLanguageModel gemini = AiModels.GEMINI_FLASH;
+    private static final ChatLanguageModel claude = AiModels.CLAUDE_OPUS;
+    private static final ChatLanguageModel mistral = AiModels.MISTRAL_LARGE_MODEL;
 
     private static final ChatLanguageModel pixtral = MistralAiChatModel.builder()
             .apiKey(System.getenv("MISTRAL_API_KEY"))
@@ -53,7 +38,7 @@ public class CthulhuTest {
             .logResponses(true)
             .build();
 
-    // models for parameterized test
+    // chat models for parameterized test
     private static Stream<ChatLanguageModel> getModels() {
         return Stream.of(gpt4o, gemini, claude, mistral);
     }

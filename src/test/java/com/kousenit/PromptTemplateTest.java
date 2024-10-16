@@ -3,21 +3,14 @@ package com.kousenit;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
-import dev.langchain4j.model.openai.OpenAiChatModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PromptTemplateTest {
-    private final ChatLanguageModel model = OpenAiChatModel.builder()
-            .apiKey(ApiKeys.OPENAI_API_KEY)
-            .timeout(ofSeconds(60))
-            .logRequests(true)
-            .logResponses(true)
-            .build();
+    private final ChatLanguageModel model = AiModels.GPT_4_O;
 
     @Test
     void promptTemplateWithParameters() {

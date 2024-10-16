@@ -5,8 +5,6 @@ import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.output.TokenUsage;
 import org.junit.jupiter.api.Test;
@@ -19,11 +17,7 @@ import java.util.Base64;
 
 public class OpenAiTest {
 
-    private final ChatLanguageModel model = OpenAiChatModel.builder()
-            .apiKey(System.getenv("OPENAI_API_KEY"))
-            .modelName(OpenAiChatModelName.GPT_4_O)
-            .maxRetries(1)
-            .build();
+    private final ChatLanguageModel model = AiModels.GPT_4_O;
 
     @Test
     public void testGenerateWithMessages() {

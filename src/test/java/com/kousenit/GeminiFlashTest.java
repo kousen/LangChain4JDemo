@@ -5,7 +5,6 @@ import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.output.TokenUsage;
 import org.junit.jupiter.api.Disabled;
@@ -18,10 +17,7 @@ import java.util.Base64;
 
 public class GeminiFlashTest {
 
-    private final ChatLanguageModel model = GoogleAiGeminiChatModel.builder()
-            .apiKey(System.getenv("GOOGLEAI_API_KEY"))
-            .modelName("gemini-1.5-flash")
-            .build();
+    private final ChatLanguageModel model = AiModels.GEMINI_FLASH;
 
     @Test
     public void testGenerateWithMessages() {
