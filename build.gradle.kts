@@ -5,7 +5,7 @@ plugins {
 group = "com.kousenit"
 version = "1.0-SNAPSHOT"
 
-val langchain4jVersion by extra("0.34.0")
+val langchain4jVersion by extra("0.35.0")
 
 dependencies {
     // LangChain4J

@@ -1,10 +1,7 @@
 package com.kousenit;
 
 import dev.langchain4j.data.image.Image;
-import dev.langchain4j.data.message.AiMessage;
-import dev.langchain4j.data.message.ImageContent;
-import dev.langchain4j.data.message.TextContent;
-import dev.langchain4j.data.message.UserMessage;
+import dev.langchain4j.data.message.*;
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.AnthropicChatModelName;
 import dev.langchain4j.model.chat.ChatLanguageModel;
@@ -17,6 +14,7 @@ import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.model.openai.OpenAiImageModel;
 import dev.langchain4j.model.openai.OpenAiImageModelName;
 import dev.langchain4j.model.output.Response;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,8 +28,7 @@ import java.util.stream.Stream;
 public class CthulhuTest {
     private static final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
             .apiKey(System.getenv("OPENAI_API_KEY"))
-            .modelName(OpenAiChatModelName.GPT_4_O_MINI)
-            .maxRetries(1)
+            .modelName(OpenAiChatModelName.GPT_4_O)
             .build();
 
     private static final ChatLanguageModel gemini = GoogleAiGeminiChatModel.builder()
@@ -41,18 +38,27 @@ public class CthulhuTest {
 
     private static final ChatLanguageModel claude = AnthropicChatModel.builder()
             .apiKey(System.getenv("ANTHROPIC_API_KEY"))
-            .modelName(AnthropicChatModelName.CLAUDE_3_HAIKU_20240307)
+            .modelName(AnthropicChatModelName.CLAUDE_3_OPUS_20240229)
             .build();
 
     private static final ChatLanguageModel mistral = MistralAiChatModel.builder()
             .apiKey(System.getenv("MISTRAL_API_KEY"))
-            .modelName(MistralAiChatModelName.MISTRAL_SMALL_LATEST)
+            .modelName(MistralAiChatModelName.MISTRAL_LARGE_LATEST)
             .build();
 
+    private static final ChatLanguageModel pixtral = MistralAiChatModel.builder()
+            .apiKey(System.getenv("MISTRAL_API_KEY"))
+            .modelName("pixtral-12b-2409")
+            .logRequests(true)
+            .logResponses(true)
+            .build();
+
+    // models for parameterized test
     private static Stream<ChatLanguageModel> getModels() {
         return Stream.of(gpt4o, gemini, claude, mistral);
     }
 
+    // vision models for parameterized test
     private static Stream<ChatLanguageModel> getVisionModels() {
         // Update when Pixtral (from Mistral) is available
         return Stream.of(gpt4o, gemini, claude);
@@ -76,12 +82,26 @@ public class CthulhuTest {
 
         UserMessage userMessage = UserMessage.from(
                 TextContent.from("Please explain the joke in this image"),
-                new ImageContent(base64Data, "image/jpeg")
+                ImageContent.from(base64Data, "image/jpeg")
         );
 
         Response<AiMessage> response = model.generate(userMessage);
-        System.out.println(model.getClass().getSimpleName() + ": " + response.content().text());
+        System.out.println(model.getClass().getSimpleName() +
+                           ": " + response.content().text());
         System.out.println(response.tokenUsage());
+    }
+
+    @Test @Disabled("Pixtral not available yet through LangChain4j")
+    void pixtralTest() {
+        String publicUrl = "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg";
+
+        ChatMessage message = UserMessage.from(
+                TextContent.from("What is this a picture of?"),
+                ImageContent.from(publicUrl)
+        );
+
+        Response<AiMessage> response = pixtral.generate(message);
+        System.out.println(response.content().text());
     }
 
     @Test

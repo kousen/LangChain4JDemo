@@ -1,3 +1,5 @@
+## Whispers of the Lost Hartford: A Chatbot-Generated Opera
+
 ### Scene 2: The Heart of the Jungle
 
 > **Author: OpenAiChatModel**
