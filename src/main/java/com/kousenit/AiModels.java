@@ -64,9 +64,17 @@ public class AiModels {
             .modelName("gemini-1.5-flash")
             .build();
 
-    public static final ChatLanguageModel PERPLEXITY_SONAR = OpenAiChatModel.builder()
+    public static final ChatLanguageModel PERPLEXITY_LARGE_SONAR = OpenAiChatModel.builder()
             .apiKey(ApiKeys.PERPLEXITY_API_KEY)
             .baseUrl(PERPLEXITY_BASE_URL)
             .modelName(PERPLEXITY_SONAR_LARGE)
+            .build();
+
+    public static final ChatLanguageModel PERPLEXITY_SMALL_SONAR = OpenAiChatModel.builder()
+            .apiKey(ApiKeys.PERPLEXITY_API_KEY)
+            .baseUrl(PERPLEXITY_BASE_URL)
+            .modelName(PERPLEXITY_SONAR_SMALL)
+            .logRequests(true)
+            .logResponses(true)
             .build();
 }
