@@ -8,16 +8,18 @@ public class OpenWeatherMapRecords {
     }
 
     // For endpoint that returns weather for a lat/lng
-    public record WeatherResponse(Coord coord, List<Weather> weather, String base, Main main,
-                                  int visibility, Wind wind, Rain rain, Clouds clouds,
-                                  long dt, Sys sys, int timezone, int id, String name, int cod) {
+    public record WeatherResponse(
+            Coord coord, List<Weather> weather, String base, Main main,
+            int visibility, Wind wind, Rain rain, Clouds clouds,
+            long dt, Sys sys, int timezone, int id, String name, int cod) {
 
         public record Coord(double lon, double lat) { }
 
         public record Weather(int id, String main, String description, String icon) { }
 
-        public record Main(double temp, double feelsLike, double tempMin, double tempMax,
-                           int pressure, int humidity, Integer seaLevel, Integer grndLevel) {
+        public record Main(
+                double temp, double feelsLike, double tempMin, double tempMax,
+                int pressure, int humidity, Integer seaLevel, Integer grndLevel) {
         }
 
         public record Wind(double speed, int deg, double gust) { }

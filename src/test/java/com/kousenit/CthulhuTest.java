@@ -71,8 +71,7 @@ public class CthulhuTest {
         );
 
         Response<AiMessage> response = model.generate(userMessage);
-        System.out.println(model.getClass().getSimpleName() +
-                           ": " + response.content().text());
+        System.out.println(model.getClass().getSimpleName() + ": " + response.content().text());
         System.out.println(response.tokenUsage());
     }
 

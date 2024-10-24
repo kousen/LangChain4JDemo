@@ -37,7 +37,7 @@ public class PerplexityTest {
     public void sonarVsChat() {
         String question = """
                 What is the difference between the
-                Perplexity Sonar models and the
+                Perplexity Sonar online models and the
                 Perplexity Chat models?
                 """;
         String answer = model.generate(question);
@@ -47,8 +47,8 @@ public class PerplexityTest {
     @Test
     void perplexityVsGPT() {
         String question = """
-                Why should I use the Perplexity API
-                instead of GPT-4o or Claude 3.5 directly?
+                Why should I use the Perplexity API instead of
+                GPT-4o, Claude 3.5, Gemini 1.5 Flash directly?
                 """;
         String answer = model.generate(question);
         saveAnswerToMarkdownFile(question, answer);

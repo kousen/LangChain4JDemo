@@ -51,7 +51,10 @@ public class AiModels {
 
     public static final ChatLanguageModel CLAUDE_SONNET = AnthropicChatModel.builder()
             .apiKey(ApiKeys.ANTHROPIC_API_KEY)
-            .modelName(AnthropicChatModelName.CLAUDE_3_5_SONNET_20240620)
+            //.modelName(AnthropicChatModelName.CLAUDE_3_5_SONNET_20240620)
+            .modelName("claude-3-5-sonnet-latest")
+            .logRequests(true)
+            .logResponses(true)
             .build();
 
     public static final ChatLanguageModel CLAUDE_OPUS = AnthropicChatModel.builder()
