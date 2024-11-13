@@ -65,7 +65,7 @@ public class GeminiFlashTest {
 
         UserMessage userMessage = UserMessage.from(
                 TextContent.from("How would you answer this question?"),
-                new ImageContent(base64Data, "image/png")
+                ImageContent.from(base64Data, "image/png")
         );
 
         Response<AiMessage> response = model.generate(userMessage);
@@ -85,7 +85,6 @@ public class GeminiFlashTest {
         Response<AiMessage> response = model.generate(userMessage);
         System.out.println(response.content().text());
         System.out.println(response.tokenUsage());
-
     }
 
 }
