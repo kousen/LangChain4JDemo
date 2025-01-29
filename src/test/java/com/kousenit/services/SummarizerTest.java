@@ -12,7 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SummarizerTest {
 
     private final Summarizer summarizer = AiServices.create(Summarizer.class,
-            OpenAiChatModel.withApiKey(ApiKeys.OPENAI_API_KEY));
+            OpenAiChatModel.builder()
+                    .apiKey(ApiKeys.OPENAI_API_KEY)
+                    .build());
 
     @Test
     void summarize() {

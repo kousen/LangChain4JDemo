@@ -11,7 +11,7 @@ public class DeepSeekTest {
     private final ChatLanguageModel model = OpenAiChatModel.builder()
             .baseUrl("https://api.deepseek.com")
             .apiKey(ApiKeys.DEEPSEEK_API_KEY)
-            .modelName("deepseek-chat")
+            .modelName("deepseek-reasoner")
             .build();
 
     @Test
