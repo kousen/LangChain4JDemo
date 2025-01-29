@@ -20,7 +20,7 @@ public class Conversation {
 
     public final ChatLanguageModel claude = AnthropicChatModel.builder()
             .apiKey(ApiKeys.ANTHROPIC_API_KEY)
-            .modelName(AnthropicChatModelName.CLAUDE_3_SONNET_20240229)
+            .modelName(AnthropicChatModelName.CLAUDE_3_5_SONNET_20240620)
             .build();
 
     public void talkToEachOther() {

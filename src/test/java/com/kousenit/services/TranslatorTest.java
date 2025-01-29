@@ -1,5 +1,6 @@
 package com.kousenit.services;
 
+import com.kousenit.AiModels;
 import com.kousenit.ApiKeys;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.input.Prompt;
@@ -22,7 +23,7 @@ class TranslatorTest {
     @Test
     void translateUsingService() {
         Translator translator = AiServices.create(Translator.class,
-                OpenAiChatModel.withApiKey(ApiKeys.OPENAI_API_KEY));
+                AiModels.GPT_4_O);
 
         String italian = translator.translate("Hello, how are you?", "Italian");
         assertThat(italian).isEqualTo("Ciao, come stai?");

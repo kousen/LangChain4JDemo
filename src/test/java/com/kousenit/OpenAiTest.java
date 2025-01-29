@@ -84,7 +84,6 @@ public class OpenAiTest {
         Response<AiMessage> response = model.generate(userMessage);
         System.out.println(response.content().text());
         System.out.println(response.tokenUsage());
-
     }
 
 }

@@ -9,7 +9,7 @@ public class OllamaTest {
     void ollamaExample() {
         ChatLanguageModel model = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
-                .modelName("llama3.2")
+                .modelName("deepseek-r1:70b")
                 .build();
 
         System.out.println(model.generate("""
