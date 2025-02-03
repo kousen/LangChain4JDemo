@@ -13,7 +13,7 @@ public class OllamaTest {
                 .build();
 
         System.out.println(model.generate("""
-                Why is the sky blue?
+                How many r's are in the word "strawberry"?
                 """));
     }
 }

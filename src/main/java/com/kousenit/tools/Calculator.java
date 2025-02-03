@@ -20,12 +20,6 @@ public class Calculator {
         return a + b;
     }
 
-    @Tool("Subtracts two numbers")
-    public int subtract(int a, int b) {
-        logger.info("Called subtract with a={}, b={}", a, b);
-        return a - b;
-    }
-
     @Tool("Computes the square root of a number")
     public double sqrt(int x) {
         logger.info("Called sqrt with x={}", x);
