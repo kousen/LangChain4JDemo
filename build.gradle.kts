@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("groovy")
 }
 
 group = "com.kousenit"
@@ -8,6 +9,12 @@ version = "1.0-SNAPSHOT"
 val langchain4jVersion by extra("0.35.0")
 
 dependencies {
+    // Groovy
+    implementation("org.apache.groovy:groovy:4.0.25")
+    implementation("org.apache.groovy:groovy-json:4.0.25")
+    implementation("org.apache.groovy:groovy-datetime:4.0.25")
+    testImplementation("org.apache.groovy:groovy-test:4.0.25")
+
     // LangChain4J
     implementation("dev.langchain4j:langchain4j:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-open-ai:${langchain4jVersion}")
