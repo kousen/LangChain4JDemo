@@ -1,14 +1,12 @@
 package com.kousenit;
 
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.PathNotFoundException;
+import com.jayway.jsonpath.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class JsonPathTest {
 
-    private Object document;
+    private DocumentContext document;
 
     @BeforeEach
     void setUp() {
@@ -42,23 +40,21 @@ public class JsonPathTest {
                   "system_fingerprint": "fp_3a5770e1b4"
                 }
                 """;
-        document = Configuration.defaultConfiguration().jsonProvider().parse(json);
+        Configuration conf = Configuration.defaultConfiguration()
+                .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+        document = JsonPath.using(conf).parse(json);
     }
 
     @Test
     void testJsonPath() {
-        Object value = JsonPath.read(document, "$.choices[0].message.content");
+        Object value = document.read("$.choices[0].message.content");
         System.out.println(value);
     }
 
     @Test
     void testJsonPathWithMissingElement() {
-        try {
-            String reasoning = JsonPath.read(document,
-                    "$.choices[0].message.reasoning_content");
-            System.out.println(reasoning);
-        } catch (PathNotFoundException e) {
-            System.out.println("No content found");
-        }
+        String reasoning = document.read(
+                "$.choices[0].message.reasoning_content");
+        System.out.println(reasoning);
     }
 }

@@ -4,6 +4,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
 
 import java.io.IOException;
 import java.net.URI;
@@ -36,7 +39,7 @@ public class DeepSeekJson {
             .setPrettyPrinting()
             .create();
 
-    public Object chat(String question, String model) {
+    public DocumentContext chat(String question, String model) {
         DeepSeekRequest request = new DeepSeekRequest(model,
                 List.of(new Message("system", "You are a helpful assistant."),
                         new Message("user", question)),
@@ -70,7 +73,9 @@ public class DeepSeekJson {
                 System.out.println("Received...");
                 System.out.println(jsonBody);
             }
-            return Configuration.defaultConfiguration().jsonProvider().parse(jsonBody);
+            Configuration conf = Configuration.defaultConfiguration()
+                    .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+            return JsonPath.using(conf).parse(jsonBody);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

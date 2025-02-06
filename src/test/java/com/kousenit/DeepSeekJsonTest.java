@@ -1,12 +1,8 @@
 package com.kousenit;
 
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DeepSeekJsonTest {
     @Test
@@ -18,19 +14,12 @@ class DeepSeekJsonTest {
                         """,
                 "deepseek-chat");
         assertNotNull(document);
+
         System.out.println("Content:");
-        assertTrue(readJsonPath(document, "$.choices[0].message.content").isPresent());
-        System.out.println(readJsonPath(document, "$.choices[0].message.content").get());
+        String content = document.read("$.choices[0].message.content");
+        System.out.println(content != null ? content : "No content found");
         System.out.println("\nReasoning Content:");
-        System.out.println(readJsonPath(document, "$.choices[0].message.reasoning_content"));
+        String reasoning = document.read("$.choices[0].message.reasoning_content");
+        System.out.println(reasoning != null ? reasoning : "No reasoning content found");
     }
-
-    private Optional<Object> readJsonPath(Object document, String path) {
-        try {
-            return Optional.ofNullable(JsonPath.read(document, path));
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-    }
-
 }
