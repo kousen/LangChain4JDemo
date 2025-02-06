@@ -15,6 +15,9 @@ dependencies {
     implementation("org.apache.groovy:groovy-datetime:4.0.25")
     testImplementation("org.apache.groovy:groovy-test:4.0.25")
 
+    // JsonPath
+    implementation("com.jayway.jsonpath:json-path:2.9.0")
+
     // LangChain4J
     implementation("dev.langchain4j:langchain4j:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-open-ai:${langchain4jVersion}")

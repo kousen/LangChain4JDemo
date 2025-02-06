@@ -2,9 +2,9 @@ package com.kousenit
 
 import org.junit.jupiter.api.Test
 
+@SuppressWarnings('GroovyAssignabilityCheck')
 class DeepSeekDirectTest {
 
-    @SuppressWarnings('GroovyAssignabilityCheck')
     @Test
     void deepSeekDirectLink() {
         def responseMap = DeepSeekDirect.chat(
