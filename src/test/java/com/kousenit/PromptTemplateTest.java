@@ -35,7 +35,7 @@ public class PromptTemplateTest {
 
         Prompt prompt = promptTemplate.apply(variables);
 
-        String response = model.generate(prompt.text());
+        String response = model.chat(prompt.text());
         System.out.println(response);
         assertThat(response).contains("potato", "tomato", "feta", "olive oil");
 

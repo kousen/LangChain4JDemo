@@ -12,7 +12,7 @@ import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.AnthropicChatModelName;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
-import dev.langchain4j.model.embedding.onnx.bgesmallenv15q.BgeSmallEnV15QuantizedEmbeddingModel;
+import dev.langchain4j.model.embedding.onnx.bgesmallen.BgeSmallEnEmbeddingModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModelName;
@@ -73,9 +73,10 @@ public class FeudTest {
             .build();
 
     private final List<String> prompts = List.of(
-            "Who started the beef about between Drake and Kendrick Lamar?",
+            "Tell me about the beef about between Drake and Kendrick Lamar",
             "How did it escalate in 2024?",
             "Who won?",
+            "Why was 'Not Like Us' so controversial?",
             """
                     What are the chances Kendrick will perform
                     "Not Like Us" during the 2025 Super Bowl
@@ -201,7 +202,7 @@ public class FeudTest {
         System.out.println("Number of segments: " + segments.size());
 
         // Embed the segments
-        EmbeddingModel embeddingModel = new BgeSmallEnV15QuantizedEmbeddingModel();
+        EmbeddingModel embeddingModel = new BgeSmallEnEmbeddingModel();
         List<Embedding> embeddings = embeddingModel.embedAll(segments).content();
 
         // Store the embeddings
@@ -212,8 +213,8 @@ public class FeudTest {
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
                 .embeddingModel(embeddingModel)
-                .maxResults(4) // on each interaction we will retrieve the 4 most relevant segments
-                .minScore(0.5) // we want to retrieve segments at least somewhat similar to user query
+                .maxResults(4) // at most 4 relevant segments
+                .minScore(0.5) // at least somewhat similar to user query
                 .build();
 
         // Create the assistant with the content retriever

@@ -1,11 +1,10 @@
 package com.kousenit.services;
 
-import dev.langchain4j.data.message.AiMessage;
-import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.response.ChatResponse;
+import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.ollama.OllamaStreamingChatModel;
-import dev.langchain4j.model.output.Response;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +18,7 @@ public class OllamaModelTest {
                 .modelName("orca-mini")
                 .build();
 
-        String answer = model.generate(
+        String answer = model.chat(
                 "Provide 3 short bullet points explaining why Java is awesome");
 
         System.out.println(answer);
@@ -32,17 +31,16 @@ public class OllamaModelTest {
                 .modelName("orca-mini")
                 .build();
 
-        var futureResponse = new CompletableFuture<Response<AiMessage>>();
-        model.generate("What is the capital of France?", new StreamingResponseHandler<>() {
+        var futureResponse = new CompletableFuture<ChatResponse>();
+        model.chat("What is the capital of France?", new StreamingChatResponseHandler() {
             @Override
-            public void onNext(String token) {
-                System.out.print(token);
+            public void onPartialResponse(String partialResponse) {
+                System.out.println(partialResponse);
             }
 
             @Override
-            public void onComplete(Response<AiMessage> response) {
-                System.out.println();
-                futureResponse.complete(response);
+            public void onCompleteResponse(ChatResponse completeResponse) {
+                futureResponse.complete(completeResponse);
             }
 
             @Override
@@ -59,10 +57,9 @@ public class OllamaModelTest {
         ChatLanguageModel model = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
                 .modelName("orca-mini")
-                .format("json")
                 .build();
 
-        String json = model.generate(
+        String json = model.chat(
                 "Give me a JSON with 2 fields: name and age of a John Doe, 42");
 
         System.out.println(json);

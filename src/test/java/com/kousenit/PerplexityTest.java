@@ -1,11 +1,9 @@
 package com.kousenit;
 
-import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import dev.langchain4j.model.chat.response.ChatResponse;
-import dev.langchain4j.model.output.Response;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -49,7 +47,7 @@ public class PerplexityTest {
                 GPT-4o, Claude 3.5, Gemini 1.5 Flash, or even
                 DeepSeek R1 directly?
                 """;
-        String answer = model.generate(question);
+        String answer = model.chat(question);
         saveAnswerToMarkdownFile(question, answer, model);
     }
 
@@ -59,7 +57,7 @@ public class PerplexityTest {
         String question = """
                 How many stars are there in the universe?
                 """;
-        String answer = model.generate(question);
+        String answer = model.chat(question);
         saveAnswerToMarkdownFile(question, answer, model);
     }
 
@@ -82,7 +80,7 @@ public class PerplexityTest {
         String question = """
                 How many stars are there in the universe?
                 """;
-        Response<AiMessage> response = model.generate(UserMessage.from(question));
+        ChatResponse response = model.chat(UserMessage.from(question));
         System.out.println(response);
     }
 }

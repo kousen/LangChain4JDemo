@@ -78,7 +78,7 @@ class AssistantTest {
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_3_5_TURBO)
                 .build();
-        String answer = model.generate(question);
+        String answer = model.chat(question);
         logger.info("\n%s: %s".formatted(OpenAiChatModelName.GPT_3_5_TURBO, answer));
         assertThat(answer).contains("3.16");
     }
@@ -105,7 +105,7 @@ class AssistantTest {
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_4_TURBO_PREVIEW)
                 .build();
-        String answer = model.generate(question);
+        String answer = model.chat(question);
         logger.info("\n%s: %s".formatted(OpenAiChatModelName.GPT_4_TURBO_PREVIEW, answer));
         assertThat(answer).contains("3.16");
     }
@@ -116,7 +116,7 @@ class AssistantTest {
                 .apiKey(ApiKeys.MISTRAL_API_KEY)
                 .modelName(MistralAiChatModelName.MISTRAL_SMALL_LATEST.toString())
                 .build();
-        String answer = model.generate(question);
+        String answer = model.chat(question);
         logger.info("\n%s: %s".formatted(MistralAiChatModelName.MISTRAL_SMALL_LATEST, answer));
         assertThat(answer).contains("3.16");
     }
@@ -127,7 +127,7 @@ class AssistantTest {
                 .apiKey(ApiKeys.ANTHROPIC_API_KEY)
                 .modelName("claude-3-haiku-20240307")
                 .build();
-        String answer = model.generate(question);
+        String answer = model.chat(question);
         logger.info("\n%s: %s".formatted("claude-3-haiku", answer));
         assertThat(answer).contains("3.16");
     }
@@ -143,7 +143,7 @@ class AssistantTest {
                     .baseUrl("http://localhost:11434")
                     .modelName(modelName)
                     .build();
-            String answer = model.generate(question);
+            String answer = model.chat(question);
             logger.info("\n\n%s: %s".formatted(modelName, answer));
             assertThat(answer).contains("3.16");
         } catch (Exception e) {
@@ -172,7 +172,7 @@ class AssistantTest {
                 .modelName(modelName)
                 .build();
         try {
-            String answer = model.generate(lengthQuestion);
+            String answer = model.chat(lengthQuestion);
             logger.info("\n\n%s (via ollama): %s".formatted(modelName, answer));
             assertThat(answer).contains(String.valueOf(correctAnswer));
         } catch (Exception e) {

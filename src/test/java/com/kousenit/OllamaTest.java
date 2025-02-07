@@ -12,7 +12,7 @@ public class OllamaTest {
                 .modelName("deepseek-r1:70b")
                 .build();
 
-        System.out.println(model.generate("""
+        System.out.println(model.chat("""
                 How many r's are in the word "strawberry"?
                 """));
     }

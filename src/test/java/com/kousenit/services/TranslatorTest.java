@@ -37,7 +37,7 @@ class TranslatorTest {
                         Map.entry("text", "Hello, how are you?"),
                         Map.entry("language", "Italian")));
 
-        String italian = model.generate(prompt.text());
+        String italian = model.chat(prompt.text());
         System.out.println(italian);
         assertThat(italian).contains("Ciao");
     }

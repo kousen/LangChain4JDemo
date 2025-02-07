@@ -19,19 +19,20 @@ dependencies {
     implementation("com.jayway.jsonpath:json-path:2.9.0")
 
     // LangChain4J
-    implementation("dev.langchain4j:langchain4j:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-open-ai:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-mistral-ai:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-google-ai-gemini:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-ollama:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-anthropic:${langchain4jVersion}")
+    implementation(platform("dev.langchain4j:langchain4j-bom:1.0.0-beta1"))
+    implementation("dev.langchain4j:langchain4j")
+    implementation("dev.langchain4j:langchain4j-open-ai")
+    implementation("dev.langchain4j:langchain4j-mistral-ai")
+    implementation("dev.langchain4j:langchain4j-google-ai-gemini")
+    implementation("dev.langchain4j:langchain4j-ollama")
+    implementation("dev.langchain4j:langchain4j-anthropic")
 
     // Embeddings and loaders
-    implementation("dev.langchain4j:langchain4j-embeddings:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-embeddings-bge-small-en-v15-q:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-document-parser-apache-pdfbox:${langchain4jVersion}")
-    implementation("dev.langchain4j:langchain4j-document-parser-apache-tika:${langchain4jVersion}")
+    implementation("dev.langchain4j:langchain4j-embeddings")
+    implementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2")
+    implementation("dev.langchain4j:langchain4j-embeddings-bge-small-en")
+    implementation("dev.langchain4j:langchain4j-document-parser-apache-pdfbox")
+    implementation("dev.langchain4j:langchain4j-document-parser-apache-tika")
 
     // Jsoup
     implementation("org.jsoup:jsoup:1.18.1")

@@ -1,15 +1,14 @@
 package com.kousenit;
 
-import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.response.ChatResponse;
+import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
-import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.output.TokenUsage;
 import org.junit.jupiter.api.Test;
 
@@ -32,8 +31,8 @@ public class OpenAiTest {
         UserMessage userMessage = UserMessage.from("""
                 Hello, my name is Inigo Montoya.
                 """);
-        Response<AiMessage> aiMessage = model.generate(userMessage);
-        System.out.println(aiMessage);
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(response);
     }
 
     @Test
@@ -41,10 +40,10 @@ public class OpenAiTest {
         UserMessage userMessage = UserMessage.from("""
                 Hello, my name is Inigo Montoya.
                 """);
-        Response<AiMessage> aiMessage = model.generate(userMessage);
+        ChatResponse aiMessage = model.chat(userMessage);
         System.out.println(aiMessage);
         String response = switch (aiMessage.finishReason()) {
-            case STOP -> aiMessage.content().text();
+            case STOP -> aiMessage.aiMessage().text();
             case LENGTH -> "Token limit reached";
             case TOOL_EXECUTION -> "Tool execution needed";
             case CONTENT_FILTER -> "Content filtering required";
@@ -58,7 +57,7 @@ public class OpenAiTest {
         UserMessage userMessage = UserMessage.from("""
                 Hello, my name is Inigo Montoya.
                 """);
-        Response<AiMessage> aiMessage = model.generate(userMessage);
+        ChatResponse aiMessage = model.chat(userMessage);
         TokenUsage tokenUsage = aiMessage.tokenUsage();
         System.out.println("Input tokens: " + tokenUsage.inputTokenCount());
         System.out.println("Output tokens: " + tokenUsage.outputTokenCount());
@@ -73,11 +72,11 @@ public class OpenAiTest {
                 .build();
 
         var latch = new CountDownLatch(1);
-        chatModel.generate("Tell me a joke about Java",
-                new StreamingResponseHandler<>() {
+        chatModel.chat("Tell me a joke about Java",
+                new StreamingChatResponseHandler() {
                     @Override
-                    public void onNext(String token) {
-                        System.out.println("onNext(): " + token);
+                    public void onPartialResponse(String partialResponse) {
+                        System.out.println("onPartialResponse(): " + partialResponse);
                     }
 
                     @Override
@@ -86,9 +85,8 @@ public class OpenAiTest {
                     }
 
                     @Override
-                    public void onComplete(Response<AiMessage> response) {
+                    public void onCompleteResponse(ChatResponse response) {
                         System.out.println("completed");
-                        StreamingResponseHandler.super.onComplete(response);
                         latch.countDown();
                     }
                 });
@@ -117,8 +115,8 @@ public class OpenAiTest {
                 new ImageContent(base64Data, "image/png")
         );
 
-        Response<AiMessage> response = model.generate(userMessage);
-        System.out.println(response.content().text());
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(response.aiMessage().text());
         System.out.println(response.tokenUsage());
     }
 
@@ -130,8 +128,8 @@ public class OpenAiTest {
                 TextContent.from("What character is shown in this image?"),
                 ImageContent.from(imageUrl)
         );
-        Response<AiMessage> response = model.generate(userMessage);
-        System.out.println(response.content().text());
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(response.aiMessage().text());
         System.out.println(response.tokenUsage());
     }
 

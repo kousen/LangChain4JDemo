@@ -23,7 +23,7 @@ class ExamPromptTest {
         ExamPrompt record = new ExamPrompt("Java", "Streams");
 
         Prompt prompt = StructuredPromptProcessor.toPrompt(record);
-        String exam = model.generate(prompt.text());
+        String exam = model.chat(prompt.text());
         System.out.println(exam);
     }
 

@@ -1,9 +1,8 @@
 package com.kousenit;
 
-import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +13,7 @@ public class AnthropicTest {
     @Test
     void test() {
         System.out.println("Testing the new model: (should be claude-3-5-sonnet-20241022");
-        Response<AiMessage> response = model.generate(
+        ChatResponse response = model.chat(
                 UserMessage.from("""
                 Shall I compare thee to a summer's day?
                 Thou art more lovely and more temperate:

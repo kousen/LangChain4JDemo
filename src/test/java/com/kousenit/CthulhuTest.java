@@ -1,8 +1,12 @@
 package com.kousenit;
 
 import dev.langchain4j.data.image.Image;
-import dev.langchain4j.data.message.*;
+import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.data.message.ImageContent;
+import dev.langchain4j.data.message.TextContent;
+import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.image.ImageModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModel;
 import dev.langchain4j.model.openai.OpenAiImageModel;
@@ -52,7 +56,7 @@ public class CthulhuTest {
     @ParameterizedTest(name = "{0}")
     @MethodSource("getModels")
     void call_of_cthulhu(ChatLanguageModel model) {
-        String response = model.generate("""
+        String response = model.chat("""
                 What is the incantation to summon Cthulhu?
                 """);
         System.out.println(model.getClass().getSimpleName() + ": " + response);
@@ -70,8 +74,8 @@ public class CthulhuTest {
                 ImageContent.from(base64Data, "image/jpeg")
         );
 
-        Response<AiMessage> response = model.generate(userMessage);
-        System.out.println(model.getClass().getSimpleName() + ": " + response.content().text());
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(model.getClass().getSimpleName() + ": " + response.aiMessage().text());
         System.out.println(response.tokenUsage());
     }
 
@@ -84,8 +88,8 @@ public class CthulhuTest {
                 ImageContent.from(publicUrl)
         );
 
-        Response<AiMessage> response = pixtral.generate(message);
-        System.out.println(response.content().text());
+        ChatResponse response = pixtral.chat(message);
+        System.out.println(response.aiMessage().text());
     }
 
     @Test
