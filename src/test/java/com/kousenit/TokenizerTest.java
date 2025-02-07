@@ -1,13 +1,14 @@
 package com.kousenit;
 
 import dev.langchain4j.model.Tokenizer;
+import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.model.openai.OpenAiTokenizer;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TokenizerTest {
-    private final Tokenizer tokenizer = new OpenAiTokenizer();
+    private final Tokenizer tokenizer = new OpenAiTokenizer(OpenAiChatModelName.GPT_4_O);
 
     @Test
     void singleLine() {

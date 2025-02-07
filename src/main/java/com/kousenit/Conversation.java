@@ -1,6 +1,5 @@
 package com.kousenit;
 
-import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
@@ -8,6 +7,7 @@ import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.AnthropicChatModelName;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 
@@ -62,10 +62,10 @@ public class Conversation {
         ChatLanguageModel model;
         for (int i = 0; i < 5; i++) {
             model = i % 2 == 0 ? gpt4o : claude;
-            AiMessage response = model.generate(memory.messages()).content();
+            ChatResponse response = model.chat(memory.messages());
             System.out.printf("--------- %s ---------%n", model.getClass().getSimpleName());
-            System.out.println(response.text());
-            memory.add(response);
+            System.out.println(response.aiMessage().text());
+            memory.add(response.aiMessage());
             memory.add(userMessage);
         }
     }
@@ -84,11 +84,11 @@ public class Conversation {
         // Loop through each model, generating a conversation
         for (ChatLanguageModel model : models) {
             // Generate the model's response
-            AiMessage response = model.generate(memory.messages()).content();
-            memory.add(response); // Add the response to the memory
+            ChatResponse response = model.chat(memory.messages());
+            memory.add(response.aiMessage()); // Add the response to the memory
 
             // Print the conversation so far
-            System.out.println(model.getClass().getSimpleName() + ": " + response.text());
+            System.out.println(model.getClass().getSimpleName() + ": " + response.aiMessage().text());
 
             // Prepare a follow-up prompt for the next model based on the previous model's response
             UserMessage followUpPrompt = new UserMessage("What do you think about the previous response?");

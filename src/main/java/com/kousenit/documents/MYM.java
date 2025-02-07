@@ -34,8 +34,8 @@ public class MYM {
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName("gpt-4o")
                 .temperature(0.3)
-                .logRequests(true)
-                .logResponses(true)
+                //.logRequests(true)
+                //.logResponses(true)
                 .build();
 
         // Load the document
@@ -76,8 +76,8 @@ public class MYM {
                 .build();
 
         String answer = agent.answer("""
-                What is meant by the phrase,
-                "Your boss is not your friend"?
+                How does the book define
+                the phrase "working professional"?
                 """);
         System.out.println(answer);
     }

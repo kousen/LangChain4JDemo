@@ -1,11 +1,10 @@
 package com.kousenit;
 
-import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.output.TokenUsage;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -24,8 +23,8 @@ public class GeminiFlashTest {
         UserMessage userMessage = UserMessage.from("""
             Hello, my name is Inigo Montoya.
             """);
-        Response<AiMessage> aiMessage = model.generate(userMessage);
-        System.out.println(aiMessage);
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(response);
     }
 
     @Test
@@ -33,16 +32,16 @@ public class GeminiFlashTest {
         UserMessage userMessage = UserMessage.from("""
             Hello, my name is Inigo Montoya.
             """);
-        Response<AiMessage> aiMessage = model.generate(userMessage);
-        System.out.println(aiMessage);
-        String response = switch (aiMessage.finishReason()) {
-            case STOP -> aiMessage.content().text();
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(response);
+        String text = switch (response.finishReason()) {
+            case STOP -> response.aiMessage().text();
             case LENGTH -> "Token limit reached";
             case TOOL_EXECUTION -> "Tool execution needed";
             case CONTENT_FILTER -> "Content filtering required";
             case OTHER -> "Call finished for some other reason";
         };
-        System.out.println(response);
+        System.out.println(text);
     }
 
     @Test
@@ -50,8 +49,8 @@ public class GeminiFlashTest {
         UserMessage userMessage = UserMessage.from("""
             Hello, my name is Inigo Montoya.
             """);
-        Response<AiMessage> aiMessage = model.generate(userMessage);
-        TokenUsage tokenUsage = aiMessage.tokenUsage();
+        ChatResponse response = model.chat(userMessage);
+        TokenUsage tokenUsage = response.tokenUsage();
         System.out.println("Input tokens: " + tokenUsage.inputTokenCount());
         System.out.println("Output tokens: " + tokenUsage.outputTokenCount());
         System.out.println("Total tokens: " + tokenUsage.totalTokenCount());
@@ -68,8 +67,8 @@ public class GeminiFlashTest {
                 ImageContent.from(base64Data, "image/png")
         );
 
-        Response<AiMessage> response = model.generate(userMessage);
-        System.out.println(response.content().text());
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(response.aiMessage().text());
         System.out.println(response.tokenUsage());
     }
 
@@ -82,8 +81,8 @@ public class GeminiFlashTest {
                 TextContent.from("What character is shown in this image?"),
                 ImageContent.from(imageUrl)
         );
-        Response<AiMessage> response = model.generate(userMessage);
-        System.out.println(response.content().text());
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(response.aiMessage().text());
         System.out.println(response.tokenUsage());
     }
 

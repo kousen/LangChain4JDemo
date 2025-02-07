@@ -6,7 +6,7 @@ plugins {
 group = "com.kousenit"
 version = "1.0-SNAPSHOT"
 
-val langchain4jVersion by extra("0.35.0")
+val langchain4jVersion by extra("1.0.0-beta1")
 
 dependencies {
     // Groovy
@@ -26,13 +26,15 @@ dependencies {
     implementation("dev.langchain4j:langchain4j-ollama:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-anthropic:${langchain4jVersion}")
 
-    // Make CVE issues go away
-    implementation("org.apache.james:apache-mime4j-core:0.8.11")
-
     // Embeddings and loaders
     implementation("dev.langchain4j:langchain4j-embeddings:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2:${langchain4jVersion}")
+    implementation("dev.langchain4j:langchain4j-embeddings-bge-small-en-v15-q:${langchain4jVersion}")
     implementation("dev.langchain4j:langchain4j-document-parser-apache-pdfbox:${langchain4jVersion}")
+    implementation("dev.langchain4j:langchain4j-document-parser-apache-tika:${langchain4jVersion}")
+
+    // Jsoup
+    implementation("org.jsoup:jsoup:1.18.1")
 
     // Logging
     implementation("org.slf4j:slf4j-api:2.0.12")

@@ -9,7 +9,7 @@ import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.service.AiServices;
 import org.junit.jupiter.api.Test;
 
@@ -26,8 +26,8 @@ class ConversationTest {
 
     @Test
     void statelessDemo() {
-        String firstAnswer = gpt4o.generate("My name is Inigo Montoya.");
-        String secondAnswer = gpt4o.generate("What's my name?");
+        String firstAnswer = gpt4o.chat("My name is Inigo Montoya.");
+        String secondAnswer = gpt4o.chat("What's my name?");
         List<String> response = List.of(firstAnswer, secondAnswer);
         System.out.println(response);
         assertThat(response)
@@ -43,14 +43,12 @@ class ConversationTest {
         ChatMemory memory = MessageWindowChatMemory.withMaxMessages(10);
 
         memory.add(UserMessage.from("My name is Inigo Montoya."));
-        AiMessage firstResponse = gpt4o.generate(memory.messages())
-                .content();
+        AiMessage firstResponse = gpt4o.chat(memory.messages()).aiMessage();
         memory.add(firstResponse);
         String firstAnswer = firstResponse.text();
 
         memory.add(UserMessage.from("What's my name?"));
-        AiMessage secondResponse = gpt4o.generate(memory.messages())
-                .content();
+        AiMessage secondResponse = gpt4o.chat(memory.messages()).aiMessage();
         memory.add(secondResponse);
         String secondAnswer = secondResponse.text();
         List<String> response = List.of(firstAnswer, secondAnswer);
@@ -110,13 +108,13 @@ class ConversationTest {
                 suitable for a newspaper review or academic journal:
                 %s
                 """.formatted(libretto.text());
-        Response<AiMessage> response = gemini.generate(
+        ChatResponse response = gemini.chat(
                 List.of(SystemMessage.from("""
                         You are an experienced music critic
                         with a deep knowledge of opera.
                         """),
                         UserMessage.from(query)));
-        System.out.println(response.content().text());
+        System.out.println(response.aiMessage().text());
         System.out.println(response.tokenUsage());
     }
 

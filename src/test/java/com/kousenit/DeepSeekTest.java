@@ -2,16 +2,15 @@ package com.kousenit;
 
 import com.kousenit.services.Assistant;
 import com.kousenit.tools.Calculator;
-import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.response.ChatResponse;
+import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
-import dev.langchain4j.model.output.Response;
 import dev.langchain4j.service.AiServices;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -41,8 +40,8 @@ public class DeepSeekTest {
             UserMessage userMessage = UserMessage.from("""
                     How many r's are in the word "strawberry"?
                     """);
-            Response<AiMessage> aiMessage = model.generate(userMessage);
-            System.out.println(aiMessage);
+            ChatResponse response = model.chat(userMessage);
+            System.out.println(response);
         }
 
         @Test
@@ -55,8 +54,8 @@ public class DeepSeekTest {
                     should we be using AI tools at all? If so, should
                     we favor those developed in the US? Why or why not?
                     """);
-            Response<AiMessage> aiMessage = model.generate(userMessage);
-            System.out.println(aiMessage);
+            ChatResponse response = model.chat(userMessage);
+            System.out.println(response);
         }
 
         @Test
@@ -68,11 +67,11 @@ public class DeepSeekTest {
                     .build();
 
             var latch = new CountDownLatch(1);
-            chatModel.generate("Tell me a joke about AI.",
-                    new StreamingResponseHandler<>() {
+            chatModel.chat("Tell me a joke about AI.",
+                    new StreamingChatResponseHandler() {
                         @Override
-                        public void onNext(String token) {
-                            System.out.println("onNext(): " + token);
+                        public void onPartialResponse(String partialResponse) {
+                            System.out.println("onPartialResponse(): " + partialResponse);
                         }
 
                         @Override
@@ -81,9 +80,8 @@ public class DeepSeekTest {
                         }
 
                         @Override
-                        public void onComplete(Response<AiMessage> response) {
+                        public void onCompleteResponse(ChatResponse response) {
                             System.out.println("complete");
-                            StreamingResponseHandler.super.onComplete(response);
                             latch.countDown();
                         }
                     });
@@ -100,9 +98,9 @@ public class DeepSeekTest {
         @Test
         void statelessConversation() {
             model = AiModels.DEEPSEEK_CHAT;
-            String response1 = model.generate("Hello, my name is Inigo Montoya.");
+            String response1 = model.chat("Hello, my name is Inigo Montoya.");
             System.out.println("Response 1:\n" + response1);
-            String response2 = model.generate("What's my name?");
+            String response2 = model.chat("What's my name?");
             System.out.println("Response 2:\n" + response2);
             assertFalse(response2.contains("Inigo Montoya"));
         }
@@ -148,8 +146,8 @@ public class DeepSeekTest {
                     new ImageContent(base64Data, "image/png")
             );
 
-            Response<AiMessage> response = model.generate(userMessage);
-            System.out.println(response.content().text());
+            ChatResponse response = model.chat(userMessage);
+            System.out.println(response.aiMessage().text());
             System.out.println(response.tokenUsage());
         }
 
@@ -163,8 +161,8 @@ public class DeepSeekTest {
                     TextContent.from("What character is shown in this image?"),
                     ImageContent.from(imageUrl)
             );
-            Response<AiMessage> response = model.generate(userMessage);
-            System.out.println(response.content().text());
+            ChatResponse response = model.chat(userMessage);
+            System.out.println(response.aiMessage().text());
             System.out.println(response.tokenUsage());
         }
     }
