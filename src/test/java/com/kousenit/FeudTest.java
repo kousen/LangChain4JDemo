@@ -39,6 +39,7 @@ import java.util.List;
 @EnabledIfEnvironmentVariable(named = "OPENAI_API_KEY", matches = ".*")
 @EnabledIfEnvironmentVariable(named = "ANTHROPIC_API_KEY", matches = ".*")
 @EnabledIfEnvironmentVariable(named = "GOOGLEAI_API_KEY", matches = ".*")
+@EnabledIfEnvironmentVariable(named = "MISTRAL_API_KEY", matches = ".*")
 public class FeudTest {
 
     public static final String WIKIPEDIA_FEUD_ARTICLE =
@@ -47,6 +48,9 @@ public class FeudTest {
     private final static int GPT4O_MAX_TOKENS = 128 * 1024;
     private final static int CLAUDE_MAX_TOKENS = 200 * 1024;
     private final static int GEMINI_MAX_TOKENS = 1024 * 1024;
+    @SuppressWarnings("unused")
+    private final static int MISTRAL_MAX_TOKENS = 131 * 1024;
+
 
     private final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
             .apiKey(System.getenv("OPENAI_API_KEY"))
@@ -183,7 +187,7 @@ public class FeudTest {
         }
 
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(gpt4o)
+                .chatLanguageModel(mistral)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
 

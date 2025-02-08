@@ -1,31 +1,42 @@
 package com.kousenit;
 
 import dev.langchain4j.model.Tokenizer;
+import dev.langchain4j.model.embedding.onnx.HuggingFaceTokenizer;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.model.openai.OpenAiTokenizer;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TokenizerTest {
-    private final Tokenizer tokenizer = new OpenAiTokenizer(OpenAiChatModelName.GPT_4_O);
 
-    @Test
-    void singleLine() {
+    static Stream<Tokenizer> tokenizers() {
+        return Stream.of(new OpenAiTokenizer(OpenAiChatModelName.GPT_4_O),
+                         new HuggingFaceTokenizer());
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("tokenizers")
+    void singleLine(Tokenizer tokenizer) {
         String text = "This is a test";
         int count = tokenizer.estimateTokenCountInText(text);
         assertThat(count).isEqualTo(4);
     }
 
-    @Test
-    void longerLine() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("tokenizers")
+    void longerLine(Tokenizer tokenizer) {
         String text = "This is a test of the emergency broadcast system";
         int count = tokenizer.estimateTokenCountInText(text);
         assertThat(count).isEqualTo(9);
     }
 
-    @Test
-    void multilineTest() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("tokenizers")
+    void multilineTest(Tokenizer tokenizer) {
         String text = """
                 This is a test of the emergency broadcast system.
                 This is only a test.

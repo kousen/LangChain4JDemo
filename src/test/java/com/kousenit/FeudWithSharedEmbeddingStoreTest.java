@@ -92,10 +92,12 @@ public class FeudWithSharedEmbeddingStoreTest {
     @BeforeAll
     static void setupEmbeddingStore() {
         // Load the document
-        Document document = UrlDocumentLoader.load(WIKIPEDIA_FEUD_ARTICLE, new TextDocumentParser());
+        Document document = UrlDocumentLoader.load(WIKIPEDIA_FEUD_ARTICLE,
+                new TextDocumentParser());
 
         // Split the document
-        DocumentSplitter splitter = DocumentSplitters.recursive(300, 0);
+        DocumentSplitter splitter =
+                DocumentSplitters.recursive(300, 0);
         List<TextSegment> segments = splitter.split(document);
         System.out.println("Number of segments: " + segments.size());
 

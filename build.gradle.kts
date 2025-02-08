@@ -6,8 +6,6 @@ plugins {
 group = "com.kousenit"
 version = "1.0-SNAPSHOT"
 
-val langchain4jVersion by extra("1.0.0-beta1")
-
 dependencies {
     // Groovy
     implementation("org.apache.groovy:groovy:4.0.25")
@@ -33,9 +31,10 @@ dependencies {
     implementation("dev.langchain4j:langchain4j-embeddings-bge-small-en")
     implementation("dev.langchain4j:langchain4j-document-parser-apache-pdfbox")
     implementation("dev.langchain4j:langchain4j-document-parser-apache-tika")
+    implementation("dev.langchain4j:langchain4j-document-transformer-jsoup")
 
     // Jsoup
-    implementation("org.jsoup:jsoup:1.18.1")
+    //implementation("org.jsoup:jsoup:1.18.1")
 
     // Logging
     implementation("org.slf4j:slf4j-api:2.0.12")
