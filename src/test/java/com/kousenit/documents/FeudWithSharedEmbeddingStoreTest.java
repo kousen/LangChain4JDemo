@@ -1,4 +1,4 @@
-package com.kousenit;
+package com.kousenit.documents;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
