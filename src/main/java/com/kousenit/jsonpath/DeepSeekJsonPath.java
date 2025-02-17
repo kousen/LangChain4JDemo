@@ -1,4 +1,4 @@
-package com.kousenit;
+package com.kousenit.jsonpath;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -15,7 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-public class DeepSeekJson {
+public class DeepSeekJsonPath {
     private static final String URL = "https://api.deepseek.com/chat/completions";
     private static final String KEY = System.getenv("DEEPSEEK_API_KEY");
     private boolean debug = false;
@@ -73,8 +73,9 @@ public class DeepSeekJson {
                 System.out.println("Received...");
                 System.out.println(jsonBody);
             }
-            Configuration conf = Configuration.defaultConfiguration()
-                    .addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+            Configuration conf = Configuration.builder()
+                    .options(Option.DEFAULT_PATH_LEAF_TO_NULL)
+                    .build();
             return JsonPath.using(conf).parse(jsonBody);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);

@@ -33,7 +33,7 @@ dependencies {
     implementation("dev.langchain4j:langchain4j-document-parser-apache-tika")
     implementation("dev.langchain4j:langchain4j-document-transformer-jsoup")
 
-    // Jsoup
+    // Jsoup already part of langchain4j dependencies above
     //implementation("org.jsoup:jsoup:1.18.1")
 
     // Logging

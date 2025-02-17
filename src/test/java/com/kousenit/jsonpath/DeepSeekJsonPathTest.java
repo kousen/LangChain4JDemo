@@ -1,16 +1,16 @@
-package com.kousenit;
+package com.kousenit.jsonpath;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-class DeepSeekJsonTest {
+class DeepSeekJsonPathTest {
     @Test
     void testChat() {
-        DeepSeekJson deepSeekJson = new DeepSeekJson();
-        deepSeekJson.setDebug(false);
-        var document = deepSeekJson.chat("""
+        DeepSeekJsonPath deepSeekJsonPath = new DeepSeekJsonPath();
+        deepSeekJsonPath.setDebug(false);
+        var document = deepSeekJsonPath.chat("""
                         How many r's are in the word "strawberry"?
                         """,
                 "deepseek-chat");
@@ -28,9 +28,9 @@ class DeepSeekJsonTest {
 
     @Test
     void testReasoning() {
-        DeepSeekJson deepSeekJson = new DeepSeekJson();
-        deepSeekJson.setDebug(true);
-        var document = deepSeekJson.chat("""
+        DeepSeekJsonPath deepSeekJsonPath = new DeepSeekJsonPath();
+        deepSeekJsonPath.setDebug(true);
+        var document = deepSeekJsonPath.chat("""
                         How many r's are in the word "strawberry"?
                         """,
                 "deepseek-reasoner");

@@ -189,7 +189,7 @@ public class DeepSeekTest {
     }
 
     @Nested
-    class JsonData {
+    class RecordExtractor {
         record Person(
                 String first,
                 String last,
