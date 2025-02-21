@@ -8,10 +8,10 @@ version = "1.0-SNAPSHOT"
 
 dependencies {
     // Groovy
-    implementation("org.apache.groovy:groovy:4.0.25")
-    implementation("org.apache.groovy:groovy-json:4.0.25")
-    implementation("org.apache.groovy:groovy-datetime:4.0.25")
-    testImplementation("org.apache.groovy:groovy-test:4.0.25")
+    implementation(platform("org.apache.groovy:groovy-bom:4.0.25"))
+    implementation("org.apache.groovy:groovy-json")
+    implementation("org.apache.groovy:groovy-datetime")
+    testImplementation("org.apache.groovy:groovy-test")
 
     // JsonPath
     implementation("com.jayway.jsonpath:json-path:2.9.0")

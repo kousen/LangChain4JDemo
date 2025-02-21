@@ -1,9 +1,18 @@
 package com.kousenit;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import dev.langchain4j.model.chat.response.ChatResponse;
+import dev.langchain4j.model.openai.OpenAiChatModel;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,25 +23,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @EnabledIfEnvironmentVariable(named = "PERPLEXITY_API_KEY", matches = ".*")
 public class PerplexityTest {
 
-    private static final List<ChatLanguageModel> perplexityModels =
-            List.of(AiModels.SONAR, AiModels.SONAR_PRO, AiModels.SONAR_REASONING);
+    private static final List<ChatLanguageModel> perplexityModels = List.of(AiModels.SONAR, AiModels.SONAR_PRO, AiModels.SONAR_REASONING);
 
     private static List<ChatLanguageModel> perplexityModels() {
         return perplexityModels;
     }
 
     private void saveAnswerToMarkdownFile(String question, String answer, ChatLanguageModel model) {
-        String fileName = question.toLowerCase()
-                .replace(" ", "_")
-                .substring(0, 20);
+        String fileName = question.toLowerCase().replace(" ", "_").substring(0, 20);
         fileName = "%s_%s".formatted(fileName, model.getClass().getSimpleName());
         Path path = Paths.get("src/test/resources/%s.md".formatted(fileName));
         try {
-            Files.writeString(path,
-                    "## Question: \n%s\n\n## Answer: \n%s\n".formatted(question, answer));
+            Files.writeString(path, "## Question: \n%s\n\n## Answer: \n%s\n".formatted(question, answer));
             System.out.println("Saved to " + fileName);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -67,10 +75,7 @@ public class PerplexityTest {
         String question = """
                 How many stars are there in the universe?
                 """;
-        ChatResponse response = model.chat(
-                ChatRequest.builder()
-                        .messages(UserMessage.from(question))
-                        .build());
+        ChatResponse response = model.chat(ChatRequest.builder().messages(UserMessage.from(question)).build());
         System.out.println(response);
     }
 
@@ -82,5 +87,82 @@ public class PerplexityTest {
                 """;
         ChatResponse response = model.chat(UserMessage.from(question));
         System.out.println(response);
+    }
+
+    @Test
+    void citations_missing() {
+        // Use OpenAiChatModel to access Perplexity API
+        ChatLanguageModel model = OpenAiChatModel.builder()
+                .apiKey(ApiKeys.PERPLEXITY_API_KEY)
+                .baseUrl("https://api.perplexity.ai")
+                .modelName("sonar")
+                .build();
+
+        String question = """
+                Where is the Eiffel Tower located?
+                """;
+        ChatResponse answer = model.chat(UserMessage.userMessage(question));
+        System.out.println(answer);
+        assertFalse(answer.aiMessage().text()
+                .toLowerCase().contains("citations"));
+    }
+
+    @Test
+    void citations_present() throws IOException {
+        // Included with LangChain4j:
+        var client = new OkHttpClient();  // Networking
+        var mapper = new ObjectMapper();  // JSON parser/generator
+
+        // Use Java textblock to create a question with a model
+        String question = """
+                {
+                    "model": "sonar",
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": "Where is the Eiffel Tower located?"
+                        }
+                    ]
+                }
+                """.stripIndent();
+
+        // Send synchronous HTTP request to Perplexity API
+        Request request = new Request.Builder()
+                .url("https://api.perplexity.ai/chat/completions")
+                .addHeader("Authorization",
+                        "Bearer %s".formatted(ApiKeys.PERPLEXITY_API_KEY))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .post(RequestBody.create(question,
+                        okhttp3.MediaType.parse("application/json")))
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            System.out.println("Response Code: " + response.code());
+            assert response.body() != null;
+            String answer = response.body().string();
+            assertTrue(answer.toLowerCase().contains("citations"));
+
+            // Read JSON without mapping to classes
+            JsonNode root = mapper.readTree(answer);
+            System.out.println(root);
+
+            // Path to content is $.choices[0].message.content
+            String output = root
+                    .path("choices").get(0)
+                    .path("message")
+                    .path("content").asText();
+            System.out.println("Output: " + output);
+
+            // "citations" is a direct child of the root: $.citations
+            // JSON type is an array of strings
+            List<String> citations =
+                    mapper.convertValue(root.path("citations"),
+                            new TypeReference<>() {});
+            for (int i = 0; i < citations.size(); i++) {
+                System.out.printf("[%d] %s%n", i + 1, citations.get(i));
+            }
+        }
+
     }
 }

@@ -2,9 +2,11 @@ package com.kousenit;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@EnabledIfEnvironmentVariable(named = "DEEPSEEK_API_KEY", matches = ".*")
 class DeepSeekJacksonTest {
     private final DeepSeekJackson deepSeek = new DeepSeekJackson();
 
@@ -15,7 +17,9 @@ class DeepSeekJacksonTest {
                 How many r's are in the word "strawberry"?
                 """, "deepseek-chat");
         assertNotNull(root);
-        JsonNode message = root.path("choices").get(0).path("message");
+        JsonNode message = root
+                .path("choices").get(0)
+                .path("message");
         assertAll(
                 () -> assertTrue(message.at("/content").isValueNode()),
                 () -> assertTrue(message.at("/reasoning_content").isMissingNode())
@@ -31,7 +35,9 @@ class DeepSeekJacksonTest {
                 How many r's are in the word "strawberry"?
                 """, "deepseek-reasoner");
         assertNotNull(root);
-        JsonNode message = root.path("choices").get(0).path("message");
+        JsonNode message = root
+                .path("choices").get(0)
+                .path("message");
         assertAll(
                 () -> assertTrue(message.at("/content").isValueNode()),
                 () -> assertTrue(message.at("/reasoning_content").isValueNode())
