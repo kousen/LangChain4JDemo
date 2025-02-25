@@ -33,12 +33,12 @@ public class DeepSeekJackson {
     private final ObjectMapper mapper = new ObjectMapper();
 
     public JsonNode chat(String question, String model) {
-        DeepSeekRequest request = new DeepSeekRequest(model,
+        var request = new DeepSeekRequest(model,
                 List.of(new Message("system", "You are a helpful assistant."),
                         new Message("user", question)),
                 false);
 
-        try (HttpClient client = HttpClient.newBuilder().build()) {
+        try (var client = HttpClient.newBuilder().build()) {
             String json = mapper.writeValueAsString(request);
 
             if (debug) {

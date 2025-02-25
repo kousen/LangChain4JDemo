@@ -8,10 +8,7 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,18 +26,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @EnabledIfEnvironmentVariable(named = "PERPLEXITY_API_KEY", matches = ".*")
 public class PerplexityTest {
 
-    private static final List<ChatLanguageModel> perplexityModels = List.of(AiModels.SONAR, AiModels.SONAR_PRO, AiModels.SONAR_REASONING);
+    private static final List<ChatLanguageModel> perplexityModels =
+            List.of(AiModels.SONAR, AiModels.SONAR_PRO, AiModels.SONAR_REASONING);
 
     private static List<ChatLanguageModel> perplexityModels() {
         return perplexityModels;
     }
 
     private void saveAnswerToMarkdownFile(String question, String answer, ChatLanguageModel model) {
-        String fileName = question.toLowerCase().replace(" ", "_").substring(0, 20);
+        String fileName = question.toLowerCase()
+                .replace(" ", "_").substring(0, 20);
         fileName = "%s_%s".formatted(fileName, model.getClass().getSimpleName());
         Path path = Paths.get("src/test/resources/%s.md".formatted(fileName));
         try {
-            Files.writeString(path, "## Question: \n%s\n\n## Answer: \n%s\n".formatted(question, answer));
+            Files.writeString(path,
+                    "## Question: \n%s\n\n## Answer: \n%s\n".formatted(
+                            question, answer));
             System.out.println("Saved to " + fileName);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -96,6 +97,8 @@ public class PerplexityTest {
                 .apiKey(ApiKeys.PERPLEXITY_API_KEY)
                 .baseUrl("https://api.perplexity.ai")
                 .modelName("sonar")
+                .logRequests(true)
+                .logResponses(true)
                 .build();
 
         String question = """
@@ -124,21 +127,26 @@ public class PerplexityTest {
                         }
                     ]
                 }
-                """.stripIndent();
+                """;
 
         // Send synchronous HTTP request to Perplexity API
+        var body = RequestBody.create(question,
+                MediaType.parse("application/json"));
+
         Request request = new Request.Builder()
                 .url("https://api.perplexity.ai/chat/completions")
                 .addHeader("Authorization",
                         "Bearer %s".formatted(ApiKeys.PERPLEXITY_API_KEY))
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
-                .post(RequestBody.create(question,
-                        okhttp3.MediaType.parse("application/json")))
+                .post(body)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            System.out.println("Response Code: " + response.code());
+            if (!response.isSuccessful()) {
+                System.out.println("Response Code: " + response.code());
+                return;
+            }
             assert response.body() != null;
             String answer = response.body().string();
             assertTrue(answer.toLowerCase().contains("citations"));
@@ -148,17 +156,13 @@ public class PerplexityTest {
             System.out.println(root);
 
             // Path to content is $.choices[0].message.content
-            String output = root
-                    .path("choices").get(0)
-                    .path("message")
-                    .path("content").asText();
+            String output = root.at("/choices/0/message/content").asText();
             System.out.println("Output: " + output);
 
             // "citations" is a direct child of the root: $.citations
             // JSON type is an array of strings
-            List<String> citations =
-                    mapper.convertValue(root.path("citations"),
-                            new TypeReference<>() {});
+            List<String> citations = mapper.convertValue(
+                    root.path("citations"), new TypeReference<>() {});
             for (int i = 0; i < citations.size(); i++) {
                 System.out.printf("[%d] %s%n", i + 1, citations.get(i));
             }

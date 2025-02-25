@@ -17,9 +17,7 @@ class DeepSeekJacksonTest {
                 How many r's are in the word "strawberry"?
                 """, "deepseek-chat");
         assertNotNull(root);
-        JsonNode message = root
-                .path("choices").get(0)
-                .path("message");
+        JsonNode message = root.at("/choices/0/message");
         assertAll(
                 () -> assertTrue(message.at("/content").isValueNode()),
                 () -> assertTrue(message.at("/reasoning_content").isMissingNode())
@@ -30,14 +28,12 @@ class DeepSeekJacksonTest {
 
     @Test
     void reasoning() {
-        deepSeek.setDebug(true);
+        deepSeek.setDebug(false);
         JsonNode root = deepSeek.chat("""
                 How many r's are in the word "strawberry"?
                 """, "deepseek-reasoner");
         assertNotNull(root);
-        JsonNode message = root
-                .path("choices").get(0)
-                .path("message");
+        JsonNode message = root.at("/choices/0/message");
         assertAll(
                 () -> assertTrue(message.at("/content").isValueNode()),
                 () -> assertTrue(message.at("/reasoning_content").isValueNode())
