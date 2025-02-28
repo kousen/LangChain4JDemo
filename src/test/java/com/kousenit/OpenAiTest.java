@@ -7,6 +7,7 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
+import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.model.output.TokenUsage;
@@ -30,6 +31,23 @@ public class OpenAiTest {
     public void testGenerateWithMessages() {
         UserMessage userMessage = UserMessage.from("""
                 Hello, my name is Inigo Montoya.
+                """);
+        ChatResponse response = model.chat(userMessage);
+        System.out.println(response);
+    }
+
+    @Test
+    void gpt45chat() {
+        ChatLanguageModel model = OpenAiChatModel.builder()
+                .apiKey(ApiKeys.OPENAI_API_KEY)
+                .modelName("gpt-4.5-preview")
+                .logRequests(true)
+                .logResponses(true)
+                .build();
+        UserMessage userMessage = UserMessage.from("""
+                If these sorts of AI models are so expensive,
+                how does a company like OpenAI ever expect
+                to make a profit?
                 """);
         ChatResponse response = model.chat(userMessage);
         System.out.println(response);
@@ -110,10 +128,15 @@ public class OpenAiTest {
                         by the logo in the picture)
                         is planning to build.
                         
-                        What could go wrong?
+                        Does that seem like a good idea to you?
                         """),
                 new ImageContent(base64Data, "image/png")
         );
+
+        ChatLanguageModel model = OpenAiChatModel.builder()
+                .apiKey(ApiKeys.OPENAI_API_KEY)
+                .modelName("gpt-4.5-preview")
+                .build();
 
         ChatResponse response = model.chat(userMessage);
         System.out.println(response.aiMessage().text());
@@ -128,6 +151,11 @@ public class OpenAiTest {
                 TextContent.from("What character is shown in this image?"),
                 ImageContent.from(imageUrl)
         );
+
+        ChatLanguageModel model = OpenAiChatModel.builder()
+                .apiKey(ApiKeys.OPENAI_API_KEY)
+                .modelName("gpt-4.5-preview")
+                .build();
         ChatResponse response = model.chat(userMessage);
         System.out.println(response.aiMessage().text());
         System.out.println(response.tokenUsage());
