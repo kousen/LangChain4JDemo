@@ -15,12 +15,15 @@ import dev.langchain4j.service.AiServices;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Base64;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +32,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeepSeekTest {
     private ChatLanguageModel model;
+
+    static List<ChatLanguageModel> getModels() {
+        return List.of(AiModels.DEEPSEEK_CHAT, AiModels.DEEPSEEK_R1);
+    }
 
     @Nested
     class ChatModels {
@@ -89,8 +96,6 @@ public class DeepSeekTest {
             boolean completed = latch.await(30, TimeUnit.SECONDS);
             assertTrue(completed, "Async call did not complete in time");
         }
-
-
     }
 
     @Nested
@@ -125,12 +130,19 @@ public class DeepSeekTest {
     @Nested
     @Disabled("Vision models not yet supported")
     class VisionModels {
-        @Test
-        void vision_from_localFile() throws IOException {
-            model = AiModels.DEEPSEEK_CHAT;
 
-            String filePath = "src/main/resources/skynet.jpg";
-            byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+        @ParameterizedTest(name = "{index}: Test with model = {0}")
+        @MethodSource("com.kousenit.DeepSeekTest#getModels")
+        void vision_from_localFile(ChatLanguageModel deepSeekModel) throws IOException {
+            byte[] fileBytes;
+            try (InputStream inputStream = getClass().getClassLoader()
+                    .getResourceAsStream("skynet.jpg")) {
+                if (inputStream == null) {
+                    throw new FileNotFoundException("File skynet.jpg not found in resources");
+                }
+                fileBytes = inputStream.readAllBytes();
+            }
+
             String base64Data = Base64.getEncoder().encodeToString(fileBytes);
 
             UserMessage userMessage = UserMessage.from(
@@ -143,25 +155,24 @@ public class DeepSeekTest {
                             
                             What could go wrong?
                             """),
-                    new ImageContent(base64Data, "image/png")
+                    new ImageContent(base64Data, "image/jpg")
             );
 
-            ChatResponse response = model.chat(userMessage);
+            ChatResponse response = deepSeekModel.chat(userMessage);
             System.out.println(response.aiMessage().text());
             System.out.println(response.tokenUsage());
         }
 
-        @Test
-        void vision_from_publicURL() {
-            model = AiModels.DEEPSEEK_CHAT;
-
+        @ParameterizedTest(name = "model = {0}")
+        @MethodSource("com.kousenit.DeepSeekTest#getModels")
+        void vision_from_publicURL(ChatLanguageModel deepSeekModel) {
             String imageUrl =
                     "https://upload.wikimedia.org/wikipedia/commons/a/a0/Hello_Kitty_coffee.jpg";
             UserMessage userMessage = UserMessage.from(
                     TextContent.from("What character is shown in this image?"),
                     ImageContent.from(imageUrl)
             );
-            ChatResponse response = model.chat(userMessage);
+            ChatResponse response = deepSeekModel.chat(userMessage);
             System.out.println(response.aiMessage().text());
             System.out.println(response.tokenUsage());
         }
@@ -183,7 +194,7 @@ public class DeepSeekTest {
                     in the words "hello" and "world"?
                     """;
             String answer = assistant.chat(question);
-            System.out.println(answer);
+            System.out.println("Answer: " + answer);
             assertTrue(answer.contains("3.162"));
         }
     }
@@ -216,7 +227,7 @@ public class DeepSeekTest {
                     He and his brother Robert were raised on the family
                     vineyard, Chateau Picard, located in Saint-Estephe,
                     in Burgundy. A running gag among Star Trek fans is
-                    how awful the wine from Chateau Picard is.
+                    that the wine from Chateau Picard is awful.
                     """.stripIndent();
 
             Person jeanLuc = personExtractor.extractPerson(message);

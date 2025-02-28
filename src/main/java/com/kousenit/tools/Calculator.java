@@ -20,7 +20,7 @@ public class Calculator {
         return a + b;
     }
 
-    @Tool("Computes the square root of a number")
+    @Tool("Returns the square root of a number")
     public double sqrt(int x) {
         logger.info("Called sqrt with x={}", x);
         return Math.sqrt(x);

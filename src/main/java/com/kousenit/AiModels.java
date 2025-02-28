@@ -94,11 +94,13 @@ public class AiModels {
             .modelName("deepseek-chat")
 //            .logRequests(true)
 //            .logResponses(true)
+            .maxRetries(1)
             .build();
 
     public static final ChatLanguageModel DEEPSEEK_R1 = OpenAiChatModel.builder()
             .baseUrl(DEEPSEEK_BASE_URL)
             .apiKey(ApiKeys.DEEPSEEK_API_KEY)
             .modelName("deepseek-reasoner")
+            .maxRetries(1)
             .build();
 }
