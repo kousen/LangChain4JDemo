@@ -67,8 +67,8 @@ class DeepSeekJacksonTest {
     @Test
     void fim() {
         deepSeek.setDebug(false);
-        String prompt = "def fib(a):";
-        String suffix = "    return fib(a-1) + fib(a-2)";
+        String prompt = "Once upon a time";
+        String suffix = "And they lived happily ever after";
         JsonNode root = deepSeek.fim("deepseek-chat", prompt, suffix);
         assertNotNull(root);
         System.out.println(prompt);

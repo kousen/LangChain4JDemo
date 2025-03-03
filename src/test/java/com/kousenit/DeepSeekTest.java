@@ -10,20 +10,17 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.chat.StreamingChatLanguageModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
+import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import dev.langchain4j.service.AiServices;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Base64;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -32,10 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeepSeekTest {
     private ChatLanguageModel model;
-
-    static List<ChatLanguageModel> getModels() {
-        return List.of(AiModels.DEEPSEEK_CHAT, AiModels.DEEPSEEK_R1);
-    }
 
     @Nested
     class ChatModels {
@@ -128,12 +121,15 @@ public class DeepSeekTest {
     }
 
     @Nested
-    @Disabled("Vision models not yet supported")
     class VisionModels {
+        // DeepSeek vision model is Janus
+        ChatLanguageModel janus = OllamaChatModel.builder()
+                .baseUrl("http://localhost:11434")
+                .modelName("erwan2/DeepSeek-Janus-Pro-7B")
+                .build();
 
-        @ParameterizedTest(name = "{index}: Test with model = {0}")
-        @MethodSource("com.kousenit.DeepSeekTest#getModels")
-        void vision_from_localFile(ChatLanguageModel deepSeekModel) throws IOException {
+        @Test
+        void vision_from_localFile() throws IOException {
             byte[] fileBytes;
             try (InputStream inputStream = getClass().getClassLoader()
                     .getResourceAsStream("skynet.jpg")) {
@@ -142,7 +138,6 @@ public class DeepSeekTest {
                 }
                 fileBytes = inputStream.readAllBytes();
             }
-
             String base64Data = Base64.getEncoder().encodeToString(fileBytes);
 
             UserMessage userMessage = UserMessage.from(
@@ -155,24 +150,25 @@ public class DeepSeekTest {
                             
                             What could go wrong?
                             """),
-                    new ImageContent(base64Data, "image/jpg")
+                    ImageContent.from(base64Data, "image/jpg")
             );
 
-            ChatResponse response = deepSeekModel.chat(userMessage);
+            ChatResponse response = janus.chat(userMessage);
             System.out.println(response.aiMessage().text());
             System.out.println(response.tokenUsage());
         }
 
-        @ParameterizedTest(name = "model = {0}")
-        @MethodSource("com.kousenit.DeepSeekTest#getModels")
-        void vision_from_publicURL(ChatLanguageModel deepSeekModel) {
+        @Test
+        void vision_from_publicURL() {
             String imageUrl =
-                    "https://upload.wikimedia.org/wikipedia/commons/a/a0/Hello_Kitty_coffee.jpg";
+                    "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png";
+
             UserMessage userMessage = UserMessage.from(
-                    TextContent.from("What character is shown in this image?"),
+                    TextContent.from("What do you see?"),
                     ImageContent.from(imageUrl)
             );
-            ChatResponse response = deepSeekModel.chat(userMessage);
+
+            ChatResponse response = janus.chat(userMessage);
             System.out.println(response.aiMessage().text());
             System.out.println(response.tokenUsage());
         }
