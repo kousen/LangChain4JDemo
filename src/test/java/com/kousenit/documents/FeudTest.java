@@ -1,5 +1,6 @@
 package com.kousenit.documents;
 
+import com.kousenit.services.tavily.TavilyService;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.loader.UrlDocumentLoader;
@@ -188,6 +189,24 @@ public class FeudTest {
 
         Assistant assistant = AiServices.builder(Assistant.class)
                 .chatLanguageModel(mistral)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+                .build();
+
+        answerQuestions(assistant, wikiText);
+    }
+
+    @Test
+    void prompt_stuffing_tavily() {
+        var tavilyService = new TavilyService();
+        String wikiText = tavilyService.extract(WIKIPEDIA_FEUD_ARTICLE);
+
+        if (!sizeOkay(GPT4O_MAX_TOKENS, wikiText)) {
+            System.out.println("Document too large");
+            return;
+        }
+
+        Assistant assistant = AiServices.builder(Assistant.class)
+                .chatLanguageModel(claude)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
 

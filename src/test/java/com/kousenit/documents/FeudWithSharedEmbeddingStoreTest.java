@@ -97,7 +97,7 @@ public class FeudWithSharedEmbeddingStoreTest {
 
         // Split the document
         DocumentSplitter splitter =
-                DocumentSplitters.recursive(300, 0);
+                DocumentSplitters.recursive(300, 30);
         List<TextSegment> segments = splitter.split(document);
         System.out.println("Number of segments: " + segments.size());
 
