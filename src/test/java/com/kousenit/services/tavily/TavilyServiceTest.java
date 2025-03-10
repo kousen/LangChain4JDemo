@@ -30,6 +30,7 @@ class TavilyServiceTest {
         assertNotNull(searchResponse);
         searchResponse.results().forEach(result ->
                 System.out.println(result.title() + ": " + result.url() + " (" + result.score() + ")"));
+        System.out.println("Answer: " + searchResponse.answer());
         System.out.println("Response time: " + searchResponse.responseTime());
     }
 

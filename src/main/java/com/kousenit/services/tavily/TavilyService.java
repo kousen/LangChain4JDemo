@@ -32,6 +32,14 @@ public class TavilyService {
         return sendRequest(request, SearchResponse.class);
     }
 
+    public SearchResponse search(String query) {
+        return search(
+                new SearchQuery(query, "general", "basic", 5,
+                        "day", 3, true, false,
+                        false, false,
+                        null, null));
+    }
+
     public ExtractResponse extract(ExtractRequest request) {
         String payload = serialize(request);
         HttpRequest httpRequest = createRequest(EXTRACT_URL, payload);
