@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import dev.langchain4j.agent.tool.P;
+import dev.langchain4j.agent.tool.Tool;
 
 import java.io.IOException;
 import java.net.URI;
@@ -32,12 +34,14 @@ public class TavilyService {
         return sendRequest(request, SearchResponse.class);
     }
 
-    public SearchResponse search(String query) {
+    @Tool("Search the internet and return a summary of the results")
+    public String search(@P("The search query") String query) {
         return search(
                 new SearchQuery(query, "general", "basic", 5,
                         "day", 3, true, false,
                         false, false,
-                        null, null));
+                        null, null))
+                .answer();
     }
 
     public ExtractResponse extract(ExtractRequest request) {

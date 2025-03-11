@@ -52,4 +52,13 @@ class TavilyServiceTest {
                 System.out.println(failedResult.url() + ": " + failedResult.error()));
         System.out.println("Response time: " + extractResponse.responseTime());
     }
+
+    @Test
+    void testSearch() {
+        String result = service.search("""
+                What are the best tools for
+                real-time language translation with AI?
+                """);
+        System.out.println(result);
+    }
 }
