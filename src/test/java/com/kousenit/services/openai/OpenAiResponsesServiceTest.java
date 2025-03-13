@@ -1,0 +1,39 @@
+package com.kousenit.services.openai;
+
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+class OpenAiResponsesServiceTest {
+
+    private final OpenAiResponsesService service = new OpenAiResponsesService();
+
+    @Test
+    void search() {
+        var jsonNode = service.search("""
+                What are some good EV models
+                available in Connecticut?
+                """);
+        assertNotNull(jsonNode);
+
+        String evText = service.extractMainContent(jsonNode);
+        List<String> urls = service.extractUrls(jsonNode);
+
+        System.out.println("EV Suggestions: " + evText);
+        System.out.println("URLs: " + urls);
+    }
+
+    @Test
+    void searchWithOutputText() {
+        var jsonNode = service.search("""
+                What are some good EV models
+                available in Connecticut?
+                """);
+        assertNotNull(jsonNode);
+
+        String allOutputText = service.getOutputText(jsonNode);
+        System.out.println("All output_text: " + allOutputText);
+    }
+}
