@@ -1,6 +1,7 @@
 package com.kousenit.services.tavily;
 
 import com.kousenit.services.Assistant;
+import com.kousenit.services.openai.OpenAiResponsesService;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
@@ -14,13 +15,27 @@ public class AIWebSearchTest {
             .apiKey(System.getenv("OPENAI_API_KEY"))
             .build();
 
-    private final Assistant assistant = AiServices.builder(Assistant.class)
-            .chatLanguageModel(model)
-            .tools(new TavilyService())
-            .build();
+    @Test
+    void searchWithOpenAi() {
+        Assistant assistant = AiServices.builder(Assistant.class)
+                .chatLanguageModel(model)
+                .tools(new OpenAiResponsesService())
+                .build();
+
+        System.out.println(assistant.chat("""
+                        What is the price of a Macbook Air
+                        in Bangalore?
+                        """
+        ));
+    }
 
     @Test
-    void search() {
+    void searchWithTavily() {
+        Assistant assistant = AiServices.builder(Assistant.class)
+                .chatLanguageModel(model)
+                .tools(new TavilyService())
+                .build();
+
         System.out.println(assistant.chat("""
                         What is the price of a Macbook Air
                         in Bangalore?

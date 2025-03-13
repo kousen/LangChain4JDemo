@@ -2,6 +2,7 @@ package com.kousenit.services.openai;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.langchain4j.agent.tool.Tool;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,12 +16,29 @@ import java.util.stream.StreamSupport;
 
 public class OpenAiResponsesService {
 
+    public record SearchResult(String mainContent, List<String> urls, String outputText) {}
+
     private static final String URL = "https://api.openai.com/v1/responses";
     private static final String API_KEY = System.getenv("OPENAI_API_KEY");
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public JsonNode search(String query) {
+
+    public SearchResult search(String query) {
+        JsonNode rootNode = callOpenAI(query);
+        return new SearchResult(
+                extractMainContent(rootNode),
+                extractUrls(rootNode),
+                getOutputText(rootNode)
+        );
+    }
+
+    @Tool("Search the web for the given query and return the main content")
+    public String searchTheWeb(String query) {
+        return search(query).mainContent();
+    }
+
+    public JsonNode callOpenAI(String query) {
         String json = """
                 {
                     "model": "gpt-4o",

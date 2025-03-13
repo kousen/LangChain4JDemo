@@ -12,7 +12,22 @@ class OpenAiResponsesServiceTest {
 
     @Test
     void search() {
-        var jsonNode = service.search("""
+        var searchResult = service.search("""
+                What are some good EV models
+                available in Connecticut?
+                """);
+        assertNotNull(searchResult);
+        System.out.println("EV Suggestions: " + searchResult.mainContent());
+        System.out.println("URLs: " + searchResult.urls());
+        if (!searchResult.outputText().equals(searchResult.mainContent())) {
+            System.out.println("All output_text: " + searchResult.outputText());
+        }
+    }
+
+
+    @Test
+    void callOpenAI() {
+        var jsonNode = service.callOpenAI("""
                 What are some good EV models
                 available in Connecticut?
                 """);
@@ -27,7 +42,7 @@ class OpenAiResponsesServiceTest {
 
     @Test
     void searchWithOutputText() {
-        var jsonNode = service.search("""
+        var jsonNode = service.callOpenAI("""
                 What are some good EV models
                 available in Connecticut?
                 """);
