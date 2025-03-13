@@ -51,4 +51,14 @@ class OpenAiResponsesServiceTest {
         String allOutputText = service.getOutputText(jsonNode);
         System.out.println("All output_text: " + allOutputText);
     }
+
+    @Test
+    void searchTheWeb() {
+        var mainContent = service.searchTheWeb("""
+                What are some good EV models
+                available in Connecticut?
+                """);
+        assertNotNull(mainContent);
+        System.out.println("EV Suggestions: " + mainContent);
+    }
 }
