@@ -21,6 +21,10 @@ public class AIWebSearchTest {
 
     @Test
     void search() {
-        System.out.println(assistant.chat("What is the weather in Boston, MA?"));
+        System.out.println(assistant.chat("""
+                        What is the price of a Macbook Air
+                        in Bangalore?
+                        """
+        ));
     }
 }
