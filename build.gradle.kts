@@ -68,3 +68,11 @@ tasks.register<JavaExec>("runMYM") {
     mainClass.set("com.kousenit.rag.MYM")
     classpath = sourceSets["main"].runtimeClasspath
 }
+
+// Define a task to run OpenAiImageModelDemo
+tasks.register<JavaExec>("runImageDemo") {
+    group = "application"
+    description = "Run OpenAiImageModelDemo application"
+    mainClass.set("com.kousenit.images.OpenAiImageModelDemo")
+    classpath = sourceSets["main"].runtimeClasspath
+}

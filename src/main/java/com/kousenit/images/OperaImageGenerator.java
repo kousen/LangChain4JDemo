@@ -1,7 +1,10 @@
 package com.kousenit.images;
 
 import com.kousenit.ApiKeys;
+import dev.langchain4j.data.image.Image;
 import dev.langchain4j.model.openai.OpenAiImageModel;
+import dev.langchain4j.model.openai.OpenAiImageModelName;
+import dev.langchain4j.model.output.Response;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -39,7 +42,9 @@ public class OperaImageGenerator {
     public static void generateImages(Map<String, String> sceneContents) {
         var model = OpenAiImageModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
-                .persistTo(Paths.get(RESOURCE_PATH))
+                .modelName(OpenAiImageModelName.DALL_E_3)
+                // The persistTo method was removed in LangChain4j 1.0.0-beta2
+                // .persistTo(Paths.get(RESOURCE_PATH))
                 .build();
 
         sceneContents.forEach((fileName, content) -> {
@@ -47,19 +52,19 @@ public class OperaImageGenerator {
             String desiredFileName = generateImageFileName(fileName);
 
             try {
-                model.generate(prompt);
-
-                // The API generates a file with a random name. We need to find and rename it.
-                try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(RESOURCE_PATH), "*.png")) {
-                    for (Path entry : stream) {
-                        if (Files.getLastModifiedTime(entry).toMillis() > System.currentTimeMillis() - 5000) {
-                            // This file was likely just created by our API call
-                            Path newPath = entry.resolveSibling(desiredFileName);
-                            Files.move(entry, newPath, StandardCopyOption.REPLACE_EXISTING);
-                            System.out.println("Generated and renamed image: " + newPath);
-                            break;
-                        }
-                    }
+                // Generate the image
+                Response<Image> imageResponse = model.generate(prompt);
+                
+                // Save the image using our utility class
+                Path savedPath = ImageSaver.saveImage(imageResponse, RESOURCE_PATH);
+                
+                if (savedPath != null) {
+                    // Rename the file to our desired filename
+                    Path newPath = savedPath.resolveSibling(desiredFileName);
+                    Files.move(savedPath, newPath, StandardCopyOption.REPLACE_EXISTING);
+                    System.out.println("Generated and renamed image: " + newPath);
+                } else {
+                    System.err.println("Failed to save image for " + fileName);
                 }
             } catch (IOException e) {
                 System.err.println("Error generating or renaming image for " + fileName + ": " + e.getMessage());

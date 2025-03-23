@@ -18,8 +18,11 @@ import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.kousenit.images.ImageSaver;
+
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.stream.Stream;
@@ -97,7 +100,7 @@ public class CthulhuTest {
         ImageModel model = OpenAiImageModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiImageModelName.DALL_E_3)
-                .persistTo(Paths.get("src/main/resources"))
+                // .persistTo(Paths.get("src/main/resources")) // Removed in 1.0.0-beta2
                 .build();
 
         Response<Image> response = model.generate("""
@@ -105,8 +108,15 @@ public class CthulhuTest {
                 cosmic entity created by writer H. P. Lovecraft.
                 """);
 
+        // Display image details
         String revisedPrompt = response.content().revisedPrompt();
         System.out.println(revisedPrompt);
         System.out.println(response.content().url());
+        
+        // Save the image using our custom utility (replaces persistTo)
+        Path savedPath = ImageSaver.saveImage(response, "src/main/resources/cthulhu");
+        if (savedPath != null) {
+            System.out.println("Image saved to: " + savedPath);
+        }
     }
 }
