@@ -17,7 +17,7 @@ dependencies {
     implementation("com.jayway.jsonpath:json-path:2.9.0")
 
     // LangChain4J
-    implementation(platform("dev.langchain4j:langchain4j-bom:1.0.0-beta1"))
+    implementation(platform("dev.langchain4j:langchain4j-bom:1.0.0-beta2"))
     implementation("dev.langchain4j:langchain4j")
     implementation("dev.langchain4j:langchain4j-open-ai")
     implementation("dev.langchain4j:langchain4j-mistral-ai")
@@ -25,16 +25,25 @@ dependencies {
     implementation("dev.langchain4j:langchain4j-ollama")
     implementation("dev.langchain4j:langchain4j-anthropic")
 
+    implementation("dev.langchain4j:langchain4j-chroma")
+
     // Embeddings and loaders
     implementation("dev.langchain4j:langchain4j-embeddings")
     implementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2")
     implementation("dev.langchain4j:langchain4j-embeddings-bge-small-en")
+    // PDFBox 2.0.x is required for LangChain4j document parser
     implementation("dev.langchain4j:langchain4j-document-parser-apache-pdfbox")
-    implementation("dev.langchain4j:langchain4j-document-parser-apache-tika")
+    
+    // Exclude all PDFBox dependencies from Tika to avoid version conflicts
+    implementation("dev.langchain4j:langchain4j-document-parser-apache-tika") {
+        exclude(group = "org.apache.pdfbox")
+    }
+    
+    // Force PDFBox 2.0.32 for the entire project
+    implementation("org.apache.pdfbox:pdfbox:2.0.32")
+    implementation("org.apache.pdfbox:fontbox:2.0.32")
+    
     implementation("dev.langchain4j:langchain4j-document-transformer-jsoup")
-
-    // Jsoup already part of langchain4j dependencies above
-    //implementation("org.jsoup:jsoup:1.18.1")
 
     // Logging
     implementation("org.slf4j:slf4j-api:2.0.12")
@@ -50,4 +59,12 @@ dependencies {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
+}
+
+// Define a task to run MYM
+tasks.register<JavaExec>("runMYM") {
+    group = "application"
+    description = "Run MYM application"
+    mainClass.set("com.kousenit.rag.MYM")
+    classpath = sourceSets["main"].runtimeClasspath
 }
