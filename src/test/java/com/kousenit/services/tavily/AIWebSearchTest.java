@@ -23,8 +23,8 @@ public class AIWebSearchTest {
                 .build();
 
         System.out.println(assistant.chat("""
-                        What is the price of a Macbook Air
-                        in Bangalore?
+                        What's the weather forecast for
+                        tomorrow in Marlborough, CT?
                         """
         ));
     }
@@ -37,8 +37,8 @@ public class AIWebSearchTest {
                 .build();
 
         System.out.println(assistant.chat("""
-                        What is the price of a Macbook Air
-                        in Bangalore?
+                        What's the weather forecast for
+                        tomorrow in Marlborough, CT?
                         """
         ));
     }

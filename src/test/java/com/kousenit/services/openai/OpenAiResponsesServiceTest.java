@@ -24,7 +24,6 @@ class OpenAiResponsesServiceTest {
         }
     }
 
-
     @Test
     void callOpenAI() {
         var jsonNode = service.callOpenAI("""

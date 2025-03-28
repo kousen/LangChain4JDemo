@@ -21,12 +21,9 @@ public class TavilyService {
     public static final String EXTRACT_URL = "https://api.tavily.com/extract";
     public static final String SEARCH_URL = "https://api.tavily.com/search";
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public TavilyService() {
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
-    }
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 
     public SearchResponse search(SearchQuery query) {
         String payload = serialize(query);
@@ -51,7 +48,8 @@ public class TavilyService {
     }
 
     public String extract(String url) {
-        ExtractResponse response = extract(new ExtractRequest(url, false, "basic"));
+        ExtractResponse response = extract(
+                new ExtractRequest(url, false, "basic"));
         return response.results().getFirst().rawContent();
     }
 

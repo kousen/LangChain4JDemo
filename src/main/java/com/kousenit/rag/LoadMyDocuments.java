@@ -1,4 +1,4 @@
-package com.kousenit.documents;
+package com.kousenit.rag;
 
 import com.kousenit.ApiKeys;
 import com.kousenit.services.Assistant;

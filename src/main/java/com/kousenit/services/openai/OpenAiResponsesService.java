@@ -23,6 +23,10 @@ public class OpenAiResponsesService {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @Tool("Search the web for the given query and return the main content")
+    public String searchTheWeb(String query) {
+        return extractMainContent(callOpenAI(query));
+    }
 
     public SearchResult search(String query) {
         JsonNode rootNode = callOpenAI(query);
@@ -31,11 +35,6 @@ public class OpenAiResponsesService {
                 extractUrls(rootNode),
                 getOutputText(rootNode)
         );
-    }
-
-    @Tool("Search the web for the given query and return the main content")
-    public String searchTheWeb(String query) {
-        return search(query).mainContent();
     }
 
     public JsonNode callOpenAI(String query) {

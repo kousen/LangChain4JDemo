@@ -1,4 +1,4 @@
-package com.kousenit.documents;
+package com.kousenit.rag;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;

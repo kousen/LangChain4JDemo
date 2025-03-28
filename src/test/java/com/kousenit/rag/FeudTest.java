@@ -1,4 +1,4 @@
-package com.kousenit.documents;
+package com.kousenit.rag;
 
 import com.kousenit.services.tavily.TavilyService;
 import dev.langchain4j.data.document.Document;
