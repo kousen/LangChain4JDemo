@@ -33,6 +33,8 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 
@@ -53,29 +55,36 @@ public class FeudTest {
     private final static int MISTRAL_MAX_TOKENS = 131 * 1024;
 
 
-    private final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
+    private static final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
             .apiKey(System.getenv("OPENAI_API_KEY"))
             .modelName(OpenAiChatModelName.GPT_4_O)
             .maxRetries(1)
             .build();
 
-    private final ChatLanguageModel claude = AnthropicChatModel.builder()
+    private static final ChatLanguageModel claude = AnthropicChatModel.builder()
             .apiKey(System.getenv("ANTHROPIC_API_KEY"))
-            .modelName(AnthropicChatModelName.CLAUDE_3_5_SONNET_20240620)
+            .modelName(AnthropicChatModelName.CLAUDE_3_7_SONNET_20250219)
             .maxRetries(1)
             .build();
 
-    private final ChatLanguageModel gemini = GoogleAiGeminiChatModel.builder()
+    private static final ChatLanguageModel gemini = GoogleAiGeminiChatModel.builder()
             .apiKey(System.getenv("GOOGLEAI_API_KEY"))
-            .modelName("gemini-2.0-flash-001")
+            .modelName("gemini-2.5-pro-exp-03-25")
             .maxRetries(1)
             .build();
 
-    private final ChatLanguageModel mistral = MistralAiChatModel.builder()
+    private static final ChatLanguageModel mistral = MistralAiChatModel.builder()
             .apiKey(System.getenv("MISTRAL_API_KEY"))
             .modelName(MistralAiChatModelName.MISTRAL_LARGE_LATEST)
             .maxRetries(1)
             .build();
+
+    // Method source for parameterized tests
+    private static List<ChatLanguageModel> models() {
+        return List.of(
+                gpt4o, claude, gemini, mistral
+        );
+    }
 
     private final List<String> prompts = List.of(
             "Tell me about the beef about between Drake and Kendrick Lamar",
@@ -213,6 +222,31 @@ public class FeudTest {
         answerQuestions(assistant, wikiText);
     }
 
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("models")
+    void prompt_stuffing_with_misleading_fact(ChatLanguageModel model) {
+        var tavilyService = new TavilyService();
+        String wikiText = tavilyService.extract(WIKIPEDIA_FEUD_ARTICLE);
+
+        wikiText += """
+                Rumor has it the next version of C#
+                is going to be renamed D♭.
+                """;
+
+        Assistant assistant = AiServices.builder(Assistant.class)
+                .chatLanguageModel(model)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+                .build();
+
+        String response = assistant.answerWithData(
+                """
+                What does the included data say about
+                coding in C#?
+                """,
+                wikiText);
+        System.out.println(response);
+    }
+
     @Test
     void rag() {
         // Load the document
@@ -220,7 +254,7 @@ public class FeudTest {
                 WIKIPEDIA_FEUD_ARTICLE, new TextDocumentParser());
 
         // Split the document
-        DocumentSplitter splitter = DocumentSplitters.recursive(300, 0);
+        DocumentSplitter splitter = DocumentSplitters.recursive(300, 30);
         List<TextSegment> segments = splitter.split(document);
         System.out.println("Number of segments: " + segments.size());
 
