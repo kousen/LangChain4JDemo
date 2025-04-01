@@ -49,12 +49,11 @@ public class FeudWithSharedEmbeddingStoreTest {
     private static final List<String> prompts = List.of(
             "Tell me about the beef about between Drake and Kendrick Lamar",
             "How did it escalate in 2024?",
-            "Who won?",
-            "Why was 'Not Like Us' so controversial?",
+            "What are recent developments in 2025?",
             """
-                    What are the chances Kendrick will perform
-                    "Not Like Us" during the 2025 Super Bowl
-                    halftime show?
+                    How many Grammy awards did Kendrick
+                    receive for "Not Like Us", and how did
+                    Drake respond?
                     """
     );
 
@@ -114,8 +113,8 @@ public class FeudWithSharedEmbeddingStoreTest {
      * Provides the `ChatLanguageModel` instances for the parameterized test.
      */
     private static Stream<ChatLanguageModel> chatLanguageModels() {
-        //return Stream.of(gpt4o, claude, gemini, mistral);
-        return Stream.of(claude, gemini, mistral);
+        return Stream.of(gpt4o, claude, gemini, mistral);
+        //return Stream.of(claude, gemini, mistral);
     }
 
     /**

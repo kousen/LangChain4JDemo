@@ -89,19 +89,18 @@ public class FeudTest {
     private final List<String> prompts = List.of(
             "Tell me about the beef about between Drake and Kendrick Lamar",
             "How did it escalate in 2024?",
-            "Who won?",
-            "Why was 'Not Like Us' so controversial?",
+            "List recent developments from 2025",
             """
-                    What are the chances Kendrick will perform
-                    "Not Like Us" during the 2025 Super Bowl
-                    halftime show?
+                    How many Grammy awards did Kendrick
+                    receive for "Not Like Us", and how did
+                    Drake respond?
                     """
     );
 
     public interface Assistant {
         String answer(@UserMessage String prompt);
 
-        @SystemMessage("Given {{information}}, answer the {{prompt}}")
+        @SystemMessage("Given {{information}}, answer the following question: {{prompt}}")
         String answerWithData(@UserMessage @V("prompt") String prompt,
                               @V("information") String information);
     }
@@ -146,7 +145,7 @@ public class FeudTest {
                 String response = assistant.answerWithData(prompt, text);
                 System.out.println(response + "\n");
             } catch (Exception e) {
-                System.err.println("Exception: " + e.getMessage());
+                System.err.println("Aw, nutbunnies: " + e.getMessage());
             }
         });
     }
@@ -241,12 +240,14 @@ public class FeudTest {
         String response = assistant.answerWithData(
                 """
                 What does the included data say about
-                coding in C#?
+                the C# programming language?
                 """,
                 wikiText);
         System.out.println(response);
     }
 
+    // Note: See FeudWithSharedEmbeddingStoreTest for the shared embedding store
+    // that evaluates all four models
     @Test
     void rag() {
         // Load the document
@@ -293,7 +294,8 @@ public class FeudTest {
         var openAiTokenizer = new OpenAiTokenizer(OpenAiChatModelName.GPT_4_O);
         return prompts.stream()
                 .map(prompt -> openAiTokenizer.estimateTokenCountInText(
-                        "Given %s, answer the %s".formatted(documentText, prompt)))
+                        "Given %s, answer the following question: %s"
+                                .formatted(documentText, prompt)))
                 .peek(tokens -> System.out.printf("OpenAI: %d tokens%n", tokens))
                 .noneMatch(tokens -> tokens > maxTokens);
     }
