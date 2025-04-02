@@ -38,6 +38,7 @@ import java.util.stream.Stream;
 @EnabledIfEnvironmentVariable(named = "OPENAI_API_KEY", matches = ".*")
 @EnabledIfEnvironmentVariable(named = "ANTHROPIC_API_KEY", matches = ".*")
 @EnabledIfEnvironmentVariable(named = "GOOGLEAI_API_KEY", matches = ".*")
+@EnabledIfEnvironmentVariable(named = "MISTRAL_API_KEY", matches = ".*")
 public class FeudWithSharedEmbeddingStoreTest {
 
     public static final String WIKIPEDIA_FEUD_ARTICLE =
