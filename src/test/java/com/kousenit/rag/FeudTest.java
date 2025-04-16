@@ -49,6 +49,7 @@ public class FeudTest {
             "https://en.wikipedia.org/wiki/Drake%E2%80%93Kendrick_Lamar_feud";
 
     private final static int GPT4O_MAX_TOKENS = 128 * 1024;
+    private final static int GPT41_MAX_TOKENS = 1024 * 1024;
     private final static int CLAUDE_MAX_TOKENS = 200 * 1024;
     private final static int GEMINI_MAX_TOKENS = 1024 * 1024;
     @SuppressWarnings("unused")
@@ -58,6 +59,12 @@ public class FeudTest {
     private static final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
             .apiKey(System.getenv("OPENAI_API_KEY"))
             .modelName(OpenAiChatModelName.GPT_4_O)
+            .maxRetries(1)
+            .build();
+
+    private static final ChatLanguageModel gpt41 = OpenAiChatModel.builder()
+            .apiKey(System.getenv("OPENAI_API_KEY"))
+            .modelName("gpt-4.1-2025-04-14")
             .maxRetries(1)
             .build();
 
@@ -82,7 +89,7 @@ public class FeudTest {
     // Method source for parameterized tests
     private static List<ChatLanguageModel> models() {
         return List.of(
-                gpt4o, claude, gemini, mistral
+                gpt4o, gpt41, claude, gemini, mistral
         );
     }
 
@@ -119,19 +126,19 @@ public class FeudTest {
         });
     }
 
-    @Test
-    void prompt_stuffing_url_document_loader_gpt4o() {
+    @Test // Rate limit issues with GPT-4.1
+    void prompt_stuffing_url_document_loader_gpt41() {
         Document feudDoc = UrlDocumentLoader.load(
                 WIKIPEDIA_FEUD_ARTICLE, new TextDocumentParser());
 
-        boolean okay = sizeOkay(GPT4O_MAX_TOKENS, feudDoc.text());
+        boolean okay = sizeOkay(GPT41_MAX_TOKENS, feudDoc.text());
         if (!okay) {
             System.out.println("Document too large");
             return;
         }
 
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(gpt4o)
+                .chatLanguageModel(gpt41)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
 

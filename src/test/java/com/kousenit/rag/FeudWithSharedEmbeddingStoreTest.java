@@ -4,7 +4,7 @@ import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.loader.UrlDocumentLoader;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
-import dev.langchain4j.data.document.splitter.DocumentSplitters;
+import dev.langchain4j.data.document.splitter.DocumentByParagraphSplitter;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -97,7 +97,8 @@ public class FeudWithSharedEmbeddingStoreTest {
 
         // Split the document
         DocumentSplitter splitter =
-                DocumentSplitters.recursive(300, 30);
+                new DocumentByParagraphSplitter(300, 30);
+//                DocumentSplitters.recursive(300, 30);
         List<TextSegment> segments = splitter.split(document);
         System.out.println("Number of segments: " + segments.size());
 
