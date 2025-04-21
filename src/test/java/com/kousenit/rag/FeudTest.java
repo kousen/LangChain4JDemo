@@ -64,7 +64,7 @@ public class FeudTest {
 
     private static final ChatLanguageModel gpt41 = OpenAiChatModel.builder()
             .apiKey(System.getenv("OPENAI_API_KEY"))
-            .modelName("gpt-4.1-2025-04-14")
+            .modelName("gpt-4.1-mini")
             .maxRetries(1)
             .build();
 

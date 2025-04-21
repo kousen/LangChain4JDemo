@@ -17,7 +17,7 @@ dependencies {
     implementation("com.jayway.jsonpath:json-path:2.9.0")
 
     // LangChain4J
-    implementation(platform("dev.langchain4j:langchain4j-bom:1.0.0-beta2"))
+    implementation(platform("dev.langchain4j:langchain4j-bom:1.0.0-beta3"))
     implementation("dev.langchain4j:langchain4j")
     implementation("dev.langchain4j:langchain4j-open-ai")
     implementation("dev.langchain4j:langchain4j-mistral-ai")
@@ -47,8 +47,12 @@ dependencies {
 
     // Logging
     implementation("org.slf4j:slf4j-api:2.0.12")
-    implementation("ch.qos.logback:logback-classic:1.5.3")
+    implementation("ch.qos.logback:logback-classic:1.5.13")
     implementation("org.apache.logging.log4j:log4j-core:2.23.1")
+
+    // Make CVE warnings go away
+    implementation("org.apache.poi:poi-ooxml:5.4.0")
+    implementation("net.minidev:json-smart:2.5.2")
 
     // Testing
     testImplementation(platform("org.junit:junit-bom:5.11.0"))
