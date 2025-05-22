@@ -3,7 +3,6 @@ package com.kousenit;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import okhttp3.*;
@@ -19,13 +18,8 @@ public class AnthropicTest {
     private final ChatModel model = AiModels.CLAUDE_SONNET;
 
     @Test
-    void claude37sonnet_noThinking() {
-        ChatModel model = AnthropicChatModel.builder()
-                .apiKey(System.getenv("ANTHROPIC_API_KEY"))
-                .modelName("claude-3-7-sonnet-20250219")
-                .logRequests(true)
-                .logResponses(true)
-                .build();
+    void claude4sonnet_noThinking() {
+        ChatModel model = AiModels.CLAUDE_4_SONNET;
 
         ChatResponse response = model.chat(UserMessage.from("""
                 Are there an infinite number of

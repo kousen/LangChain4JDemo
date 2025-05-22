@@ -61,6 +61,13 @@ public class AiModels {
             .logResponses(true)
             .build();
 
+    public static final ChatModel CLAUDE_4_SONNET = AnthropicChatModel.builder()
+            .apiKey(ApiKeys.ANTHROPIC_API_KEY)
+            .modelName("claude-sonnet-4-20250514")
+            .logRequests(true)
+            .logResponses(true)
+            .build();
+
     public static final ChatModel CLAUDE_OPUS = AnthropicChatModel.builder()
             .apiKey(ApiKeys.ANTHROPIC_API_KEY)
             .modelName(AnthropicChatModelName.CLAUDE_3_OPUS_20240229)

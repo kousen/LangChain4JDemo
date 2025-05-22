@@ -17,7 +17,7 @@ dependencies {
     implementation("com.jayway.jsonpath:json-path:2.9.0")
 
     // LangChain4J
-    implementation(platform("dev.langchain4j:langchain4j-bom:1.0.0"))
+    implementation(platform("dev.langchain4j:langchain4j-bom:1.0.1"))
     implementation("dev.langchain4j:langchain4j")
     implementation("dev.langchain4j:langchain4j-core")
     implementation("dev.langchain4j:langchain4j-open-ai")
