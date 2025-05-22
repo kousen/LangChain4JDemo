@@ -10,6 +10,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Run MYM application: `./gradlew runMYM`
 - Run image demo: `./gradlew runImageDemo`
 
+## LangChain4j Information
+- Version: 1.0.0 (stable release)
+- Key API classes: Use `ChatModel` (not `ChatLanguageModel`), `StreamingChatModel` (not `StreamingChatLanguageModel`)
+- AiServices: Use `.chatModel()` method (not `.chatLanguageModel()`)
+- Tokenizer classes: OpenAiTokenizer and HuggingFaceTokenizer were removed in 1.0.0
+- Model instances: Available in `AiModels.java` (e.g., `AiModels.GPT_4_O`, `AiModels.CLAUDE_SONNET`)
+
 ## Code Style Guidelines
 - Indentation: 4 spaces
 - Imports: Organized by package, no wildcards
