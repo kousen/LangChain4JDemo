@@ -28,6 +28,8 @@ dependencies {
 
     implementation("dev.langchain4j:langchain4j-chroma")
 
+    implementation("com.knuddels:jtokkit:1.1.0")
+
     // Embeddings and loaders
     implementation("dev.langchain4j:langchain4j-embeddings")
     implementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2")

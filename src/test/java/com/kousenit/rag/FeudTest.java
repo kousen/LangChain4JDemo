@@ -1,5 +1,10 @@
 package com.kousenit.rag;
 
+import com.knuddels.jtokkit.Encodings;
+import com.knuddels.jtokkit.api.Encoding;
+import com.knuddels.jtokkit.api.EncodingRegistry;
+import com.knuddels.jtokkit.api.ModelType;
+import com.kousenit.AiModels;
 import com.kousenit.services.tavily.TavilyService;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
@@ -9,8 +14,6 @@ import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.anthropic.AnthropicChatModel;
-import dev.langchain4j.model.anthropic.AnthropicChatModelName;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.embedding.onnx.bgesmallen.BgeSmallEnEmbeddingModel;
@@ -19,7 +22,6 @@ import dev.langchain4j.model.mistralai.MistralAiChatModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModelName;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
-// import dev.langchain4j.model.openai.OpenAiTokenizer; // Removed in LangChain4j 1.0.0
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.service.AiServices;
@@ -55,24 +57,17 @@ public class FeudTest {
     @SuppressWarnings("unused")
     private final static int MISTRAL_MAX_TOKENS = 131 * 1024;
 
-
-    private static final ChatModel gpt4o = OpenAiChatModel.builder()
-            .apiKey(System.getenv("OPENAI_API_KEY"))
-            .modelName(OpenAiChatModelName.GPT_4_O)
-            .maxRetries(1)
-            .build();
+    // From JTokkit, to estimate tokens
+    EncodingRegistry registry = Encodings.newDefaultEncodingRegistry();
+    Encoding encoding = registry.getEncodingForModel(ModelType.GPT_4O);
 
     private static final ChatModel gpt41 = OpenAiChatModel.builder()
             .apiKey(System.getenv("OPENAI_API_KEY"))
-            .modelName("gpt-4.1-mini")
+            .modelName(OpenAiChatModelName.GPT_4_1)
             .maxRetries(1)
             .build();
 
-    private static final ChatModel claude = AnthropicChatModel.builder()
-            .apiKey(System.getenv("ANTHROPIC_API_KEY"))
-            .modelName(AnthropicChatModelName.CLAUDE_3_7_SONNET_20250219)
-            .maxRetries(1)
-            .build();
+    private static final ChatModel claude = AiModels.CLAUDE_4_SONNET;
 
     private static final ChatModel gemini = GoogleAiGeminiChatModel.builder()
             .apiKey(System.getenv("GOOGLEAI_API_KEY"))
@@ -89,7 +84,7 @@ public class FeudTest {
     // Method source for parameterized tests
     private static List<ChatModel> models() {
         return List.of(
-                gpt4o, gpt41, claude, gemini, mistral
+                gpt41, claude, gemini, mistral
         );
     }
 
@@ -115,7 +110,7 @@ public class FeudTest {
     @Test
     void feud_without_any_extra_info() {
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatModel(gpt4o)
+                .chatModel(gpt41)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
 
@@ -298,9 +293,7 @@ public class FeudTest {
     }
 
     private boolean sizeOkay(int maxTokens, String documentText) {
-        // OpenAiTokenizer was removed in LangChain4j 1.0.0
-        // For now, just return true to allow processing
-        // TODO: Implement alternative token counting if needed
-        return true;
+        int tokenCount = encoding.countTokens(documentText);
+        return tokenCount < maxTokens;
     }
 }
