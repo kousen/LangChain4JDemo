@@ -1,7 +1,7 @@
 package com.kousenit.extraction;
 
 import com.kousenit.services.DateTimeExtractor;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.service.AiServices;
 
 import java.time.LocalDate;
@@ -23,9 +23,9 @@ public class DateTimeExtraction {
      *
      * @param model The chat language model to use for extraction
      */
-    public DateTimeExtraction(ChatLanguageModel model) {
+    public DateTimeExtraction(ChatModel model) {
         this.extractor = AiServices.builder(DateTimeExtractor.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .build();
         
         // Initialize formatters

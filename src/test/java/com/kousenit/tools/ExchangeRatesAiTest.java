@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class ExchangeRatesAiTest {
     private final Assistant assistant = AiServices.builder(Assistant.class)
-            .chatLanguageModel(AiModels.GPT_4_O)
+            .chatModel(AiModels.GPT_4_O)
             .tools(new OpenExchangeRates())
             .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
             .build();

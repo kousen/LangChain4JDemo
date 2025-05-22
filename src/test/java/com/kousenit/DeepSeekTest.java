@@ -6,8 +6,8 @@ import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.model.ollama.OllamaChatModel;
@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeepSeekTest {
-    private ChatLanguageModel model;
+    private ChatModel model;
 
     @Nested
     class ChatModels {
@@ -60,7 +60,7 @@ public class DeepSeekTest {
 
         @Test
         void streamingDeepSeekChat() throws InterruptedException {
-            StreamingChatLanguageModel chatModel = OpenAiStreamingChatModel.builder()
+            StreamingChatModel chatModel = OpenAiStreamingChatModel.builder()
                     .baseUrl("https://api.deepseek.com")
                     .apiKey(ApiKeys.DEEPSEEK_API_KEY)
                     .modelName("deepseek-reasoner")
@@ -108,7 +108,7 @@ public class DeepSeekTest {
             model = AiModels.DEEPSEEK_CHAT;
 
             Assistant assistant = AiServices.builder(Assistant.class)
-                    .chatLanguageModel(model)
+                    .chatModel(model)
                     .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                     .build();
 
@@ -123,7 +123,7 @@ public class DeepSeekTest {
     @Nested
     class VisionModels {
         // DeepSeek vision model is Janus
-        ChatLanguageModel janus = OllamaChatModel.builder()
+        ChatModel janus = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
                 .modelName("erwan2/DeepSeek-Janus-Pro-7B")
                 .build();
@@ -181,7 +181,7 @@ public class DeepSeekTest {
             model = AiModels.DEEPSEEK_CHAT;
 
             Assistant assistant = AiServices.builder(Assistant.class)
-                    .chatLanguageModel(model)
+                    .chatModel(model)
                     .tools(new Calculator())
                     .build();
 
@@ -213,7 +213,7 @@ public class DeepSeekTest {
             model = AiModels.DEEPSEEK_CHAT;
 
             var personExtractor = AiServices.builder(PersonExtractor.class)
-                    .chatLanguageModel(model)
+                    .chatModel(model)
                     .build();
 
             String message = """

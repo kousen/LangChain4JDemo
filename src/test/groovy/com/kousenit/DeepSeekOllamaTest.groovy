@@ -2,13 +2,13 @@ package com.kousenit
 
 import dev.langchain4j.data.message.AiMessage
 import dev.langchain4j.data.message.UserMessage
-import dev.langchain4j.model.chat.ChatLanguageModel
+import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.ollama.OllamaChatModel
 import dev.langchain4j.model.output.Response
 import org.junit.jupiter.api.Test
 
 class DeepSeekOllamaTest {
-    ChatLanguageModel ollama = OllamaChatModel.builder()
+    ChatModel ollama = OllamaChatModel.builder()
             .baseUrl("http://localhost:11434")
             .modelName("deepseek-r1")
             .build()

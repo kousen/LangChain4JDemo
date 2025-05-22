@@ -4,7 +4,7 @@ import com.kousenit.ApiKeys;
 import com.kousenit.tools.Calculator;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModelName;
 import dev.langchain4j.model.ollama.OllamaChatModel;
@@ -35,12 +35,12 @@ class AssistantTest {
 
     @Test
     void conversation() {
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName("gpt-4o")
                 .build();
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
 
@@ -74,7 +74,7 @@ class AssistantTest {
 
     @Test
     void sqrtSumLetters_openAi_gpt35() {
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_3_5_TURBO)
                 .build();
@@ -85,12 +85,12 @@ class AssistantTest {
 
     @Test
     void sqrtSumLetters_openAi_with_tools() {
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_3_5_TURBO)
                 .build();
         Assistant openAiAssistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .tools(new Calculator()) // Woot! Function calling FTW
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
@@ -101,7 +101,7 @@ class AssistantTest {
 
     @Test
     void sqrtSumLetters_openAi_gpt4() {
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_4_TURBO_PREVIEW)
                 .build();
@@ -112,7 +112,7 @@ class AssistantTest {
 
     @Test
     void sqrtSumLetters_mistral_small() {
-        ChatLanguageModel model = MistralAiChatModel.builder()
+        ChatModel model = MistralAiChatModel.builder()
                 .apiKey(ApiKeys.MISTRAL_API_KEY)
                 .modelName(MistralAiChatModelName.MISTRAL_SMALL_LATEST.toString())
                 .build();
@@ -123,7 +123,7 @@ class AssistantTest {
 
     @Test
     void sqrtSumLetters_claude_haiku() {
-        ChatLanguageModel model = AnthropicChatModel.builder()
+        ChatModel model = AnthropicChatModel.builder()
                 .apiKey(ApiKeys.ANTHROPIC_API_KEY)
                 .modelName("claude-3-haiku-20240307")
                 .build();
@@ -139,7 +139,7 @@ class AssistantTest {
             "starcoder2", "starcoder2:7b", "wizard-math", "llama2:70b"})
     void sqrtSumLetters_with_model(String modelName) {
         try {
-            ChatLanguageModel model = OllamaChatModel.builder()
+            ChatModel model = OllamaChatModel.builder()
                     .baseUrl("http://localhost:11434")
                     .modelName(modelName)
                     .build();
@@ -167,7 +167,7 @@ class AssistantTest {
             "gemma:2b", "gemma", "vicuna", "neural-chat", "mixtral",
             "starcoder2", "starcoder2:7b", "wizard-math"})
     void sum_of_word_lengths_with_model(String modelName) {
-        ChatLanguageModel model = OllamaChatModel.builder()
+        ChatModel model = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
                 .modelName(modelName)
                 .build();

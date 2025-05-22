@@ -10,7 +10,7 @@ import dev.langchain4j.data.document.splitter.DocumentSplitters;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
@@ -30,7 +30,7 @@ public class MYM {
 
     public static void main(String[] args) {
         // Set up the language model
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName("gpt-4o")
                 .temperature(0.3)
@@ -63,7 +63,7 @@ public class MYM {
         // Set up memory and agent
         ChatMemory chatMemory = MessageWindowChatMemory.withMaxMessages(10);
         MYMAgent agent = AiServices.builder(MYMAgent.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .contentRetriever(contentRetriever)
                 .chatMemory(chatMemory)
                 .build();

@@ -2,7 +2,7 @@ package com.kousenit.services;
 
 import com.kousenit.AiModels;
 import com.kousenit.ApiKeys;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -15,7 +15,7 @@ import static java.time.Duration.ofSeconds;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TranslatorTest {
-    private final ChatLanguageModel model = OpenAiChatModel.builder()
+    private final ChatModel model = OpenAiChatModel.builder()
             .apiKey(ApiKeys.OPENAI_API_KEY)
             .timeout(ofSeconds(60))
             .build();

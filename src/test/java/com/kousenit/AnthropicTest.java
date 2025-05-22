@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import okhttp3.*;
 import org.junit.jupiter.api.Test;
@@ -16,11 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AnthropicTest {
-    private final ChatLanguageModel model = AiModels.CLAUDE_SONNET;
+    private final ChatModel model = AiModels.CLAUDE_SONNET;
 
     @Test
     void claude37sonnet_noThinking() {
-        ChatLanguageModel model = AnthropicChatModel.builder()
+        ChatModel model = AnthropicChatModel.builder()
                 .apiKey(System.getenv("ANTHROPIC_API_KEY"))
                 .modelName("claude-3-7-sonnet-20250219")
                 .logRequests(true)

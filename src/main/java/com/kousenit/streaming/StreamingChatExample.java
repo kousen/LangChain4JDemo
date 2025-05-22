@@ -1,7 +1,7 @@
 package com.kousenit.streaming;
 
 import com.kousenit.ApiKeys;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
@@ -19,7 +19,7 @@ public class StreamingChatExample {
 
     public static void main(String[] args) {
         // Create a streaming chat model
-        StreamingChatLanguageModel model = OpenAiStreamingChatModel.builder()
+        StreamingChatModel model = OpenAiStreamingChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_4_O)
                 .build();

@@ -6,7 +6,7 @@ import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
@@ -26,14 +26,14 @@ public class LoadMyDocuments {
         List<Document> documents = FileSystemDocumentLoader.loadDocuments(
                 Path.of("src/main/resources/mymMediumPosts"));
 
-        ChatLanguageModel gpt4o = OpenAiChatModel.builder()
+        ChatModel gpt4o = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_4_O)
                 .build();
 
         // Create an assistant that can chat about the documents
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(gpt4o)
+                .chatModel(gpt4o)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .contentRetriever(createContentRetriever(documents))
                 .build();

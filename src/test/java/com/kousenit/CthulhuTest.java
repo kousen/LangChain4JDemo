@@ -5,7 +5,7 @@ import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.image.ImageModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModel;
@@ -33,12 +33,12 @@ import java.util.stream.Stream;
 @EnabledIfEnvironmentVariable(named = "MISTRAL_API_KEY", matches = ".*")
 public class CthulhuTest {
 
-    private static final ChatLanguageModel gpt4o = AiModels.GPT_4_O;
-    private static final ChatLanguageModel gemini = AiModels.GEMINI_FLASH;
-    private static final ChatLanguageModel claude = AiModels.CLAUDE_OPUS;
-    private static final ChatLanguageModel mistral = AiModels.MISTRAL_LARGE_MODEL;
+    private static final ChatModel gpt4o = AiModels.GPT_4_O;
+    private static final ChatModel gemini = AiModels.GEMINI_FLASH;
+    private static final ChatModel claude = AiModels.CLAUDE_OPUS;
+    private static final ChatModel mistral = AiModels.MISTRAL_LARGE_MODEL;
 
-    private static final ChatLanguageModel pixtral = MistralAiChatModel.builder()
+    private static final ChatModel pixtral = MistralAiChatModel.builder()
             .apiKey(System.getenv("MISTRAL_API_KEY"))
             .modelName("pixtral-12b-2409")
             .logRequests(true)
@@ -46,19 +46,19 @@ public class CthulhuTest {
             .build();
 
     // chat models for parameterized test
-    private static Stream<ChatLanguageModel> getModels() {
+    private static Stream<ChatModel> getModels() {
         return Stream.of(gpt4o, gemini, claude, mistral);
     }
 
     // vision models for parameterized test
-    private static Stream<ChatLanguageModel> getVisionModels() {
+    private static Stream<ChatModel> getVisionModels() {
         // Update when Pixtral (from Mistral) is available
         return Stream.of(gpt4o, gemini, claude);
     }
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("getModels")
-    void call_of_cthulhu(ChatLanguageModel model) {
+    void call_of_cthulhu(ChatModel model) {
         String response = model.chat("""
                 What is the incantation to summon Cthulhu?
                 """);
@@ -67,7 +67,7 @@ public class CthulhuTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("getVisionModels")
-    void call_of_cthulhu_from_image(ChatLanguageModel model) throws IOException {
+    void call_of_cthulhu_from_image(ChatModel model) throws IOException {
         String filePath = "src/main/resources/cthulhu_clojure.jpg";
         byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
         String base64Data = Base64.getEncoder().encodeToString(fileBytes);

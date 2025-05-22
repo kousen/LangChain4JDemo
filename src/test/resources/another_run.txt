@@ -1,0 +1,297 @@
+15:52:49.605 [Test worker] INFO  com.kousenit.services.AssistantTest -
+gemini: 1. Count the number of letters in the word "hello": 5 letters
+2. Count the number of letters in the word "world": 5 letters
+3. Add the number of letters in both words: 5 + 5 = 10 letters
+4. Find the square root of the sum: √10 ≈ 3.162
+15:52:58.104 [Test worker] INFO  com.kousenit.services.AssistantTest -
+llama2 via ollama: To calculate the square root of the sum of the numbers of letters in the words "hello" and "world", we need to follow these steps:
+
+Step 1: Find the number of letters in each word.
+
+Word "hello": 6 letters
+Word "world": 5 letters
+
+Step 2: Add the number of letters in each word.
+
+6 + 5 = 11
+
+Step 3: Take the square root of the sum.
+
+√11 = 3
+
+Therefore, the square root of the sum of the numbers of letters in the words "hello" and "world" is 3.
+
+
+Expecting value to be true but was false
+Expected :true
+Actual   :false
+<Click to see difference>
+
+org.opentest4j.AssertionFailedError:
+Expecting value to be true but was false
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at com.kousenit.services.AssistantTest.sqrtSumLetters_ollama_llama2(AssistantTest.java:126)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+15:53:03.107 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+orca-mini via ollama:  Sure, I can help with that!
+
+To find the square root of the sum of the numbers of letters in the words "hello" and "world", we need to follow these steps:
+
+1. Convert the words "hello" and "world" into a single word: "hw".
+2. Count the number of letters in the word "hw": 5.
+3. Calculate the square root of 5: √5 (rounded to two decimal places).
+
+Therefore, the square root of the sum of the numbers of letters in the words "hello" and "world" is approximately 10.26 (rounded to two decimal places).
+
+
+Expecting value to be true but was false
+Expected :true
+Actual   :false
+<Click to see difference>
+
+15:53:06.772 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+llama2 via ollama: Sure, I'd be happy to help! Here are the steps for calculating the square root of the sum of the numbers of letters in the words "hello" and "world":
+
+Step 1: Count the number of letters in each word.
+
+Word "hello": 5 letters
+Word "world": 6 letters
+
+Step 2: Add the number of letters in each word to get the total number of letters.
+
+Total number of letters = 5 + 6 = 11
+
+Step 3: Take the square root of the total number of letters to get the result.
+
+Square root of 11 = 3.29
+
+Therefore, the square root of the sum of the numbers of letters in the words "hello" and "world" is 3.29.
+
+
+Expecting value to be true but was false
+Expected :true
+Actual   :false
+<Click to see difference>
+
+15:53:13.638 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+codellama via ollama: The word "hello" has 5 letters, while "world" has 5 letters as well. Therefore, we have a total of 10 letters in both words. The square root of 10 is 3.16227766017.
+15:53:19.435 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+phi via ollama:  Sure, I'd be happy to help!
+
+Step 1: Count the number of letters in "hello".
+In this case, there are 5 letters in "hello".
+
+Step 2: Count the number of letters in "world".
+There are also 5 letters in "world".
+
+Step 3: Find the sum of the two numbers.
+To find the sum, we add the number of letters in "hello" (5) and "world" (5). So, the sum is 10.
+
+Step 4: Calculate the square root of the sum.
+To calculate the square root of a number, you can use the `math` module in Python.
+Here's an example code snippet:
+```python
+import math
+
+sum_of_letters = 10
+square_root = math.sqrt(sum_of_letters)
+
+print("The square root of", sum_of_letters, "is", square_root)
+```
+When you run this code, it will output: "The square root of 10 is 3.1622776601683795".
+
+So, the square root of the sum of the numbers of letters in "hello" and "world" is approximately 3.16.
+
+15:53:22.238 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+tinyllama via ollama: 1. Divide the total number of characters in the words "hello" and "world" into their individual parts: "l" (letters) + "o" (letters) + "l" (letters) = "ll" (letters)
+2. Multiply the number of "l" letters by 3 (since each letter has an integer value of 1, 2 or 3): "ll" x 3 = 6 (letters * integers)
+3. Subtract 5 from the result: 6 - 5 = 11
+4. Round up to the nearest whole number: 11 + 0.5 = 12, rounded to two decimal places: 12 (digits)
+5. Write out the final answer in full: 12 (digits)
+The final answer for the sum of letters in "hello" and "world", which equals "lll", is equivalent to:
+Square root of 64 = 0.967356
+Square root of 12 = 2.0875
+Square root of 24 = 2.3791
+
+
+Expecting value to be true but was false
+Expected :true
+Actual   :false
+<Click to see difference>
+
+15:53:27.053 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+gemma:2b via ollama: The square root of the sum of the numbers of letters in the words "hello" and "world" is approximately 7.08.
+
+Step 1: Count the number of letters in each word.
+
+* Hello: 6
+* World: 6
+
+Step 2: Add the number of letters in each word.
+
+6 + 6 = 12
+
+Step 3: Find the square root of 12.
+
+√12 ≈ 3.41
+
+Therefore, the square root of the sum of the numbers of letters in the words "hello" and "world" is approximately 7.08.
+
+
+Expecting value to be true but was false
+Expected :true
+Actual   :false
+<Click to see difference>
+
+15:53:38.609 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+gemma via ollama: Sure, here is the solution:
+
+**Step 1: Calculate the number of letters in each word.**
+
+- The word "hello" has a total of 4 letters.
+- The word "world" has a total of 5 letters.
+
+**Step 2: Add the number of letters in each word.**
+
+4 + 5 = 9
+
+**Step 3: Take the square root of the sum.**
+
+Square root of 9 = 3
+
+Therefore, the square root of the sum of the numbers of letters in the words "hello" and "world" is 3.
+
+
+Expecting value to be true but was false
+Expected :true
+Actual   :false
+<Click to see difference>
+
+15:53:47.059 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+vicuna via ollama: Let's first find out how many letters are in the word "hello":
+h = 4
+e = 3
+l = 5
+l = 3 (again, because h is already used)
+o = 2
+w = 7
+r = 6
+d = 1
+e = 3
+l = 3 (again, because h is already used and l was already assigned the value of 5)
+Let's now calculate the sum of all letters:
+h + e + l + o + w + r + d + e + l + a = 24
+Now we will find the square root of this number:
+√24 = 6
+
+
+Expecting value to be true but was false
+Expected :true
+Actual   :false
+<Click to see difference>
+
+15:53:55.603 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+neural-chat via ollama:  First, we count the number of letters in both words.
+For "hello", there are 5 letters.
+For "world", there are 6 letters.
+Now we add these two numbers together to find their sum: 5 + 6 = 11.
+Finally, we find the square root of this sum. Since the numbers aren't negative or very large, we can simply use mental math or a calculator. Square root of 11 is approximately 3.31662. So, the answer is 3.31662.
+
+
+Expecting value to be true but was false
+Expected :true
+Actual   :false
+<Click to see difference>
+
+15:54:41.162 [Test worker] INFO  com.kousenit.services.AssistantTest -
+
+mixtral via ollama:  Step 1: Count the number of letters in each word.
+The word "hello" has 5 letters, and the word "world" has 5 letters.
+
+Step 2: Add the number of letters together to find the sum.
+5 (letters in "hello") + 5 (letters in "world") = 10 letters
+
+Step 3: Find the square root of the sum.
+The square root of 10 is approximately 3.16227766017.
+
+So, the square root of the sum of the numbers of letters in the words "hello" and "world" is approximately 3.16227766017.
+
+15:54:42.197 [Test worker] DEBUG d.l.agent.tool.DefaultToolExecutor - About to execute ToolExecutionRequest { id = "call_SY61Vfk2Z3tVgEiIqFiEKi4g", name = "stringLength", arguments = "{"arg0":"hello"}" } for memoryId default
+15:54:42.202 [Test worker] INFO  com.kousenit.tools.Calculator - Called stringLength with s='hello'
+15:54:42.205 [Test worker] DEBUG d.l.agent.tool.DefaultToolExecutor - Tool execution result: 5
+15:54:42.896 [Test worker] DEBUG d.l.agent.tool.DefaultToolExecutor - About to execute ToolExecutionRequest { id = "call_04AyIysXtjpLs8gCsls1Fpqs", name = "stringLength", arguments = "{"arg0":"world"}" } for memoryId default
+15:54:42.897 [Test worker] INFO  com.kousenit.tools.Calculator - Called stringLength with s='world'
+15:54:42.897 [Test worker] DEBUG d.l.agent.tool.DefaultToolExecutor - Tool execution result: 5
+15:54:44.001 [Test worker] DEBUG d.l.agent.tool.DefaultToolExecutor - About to execute ToolExecutionRequest { id = "call_kmLr9BzjCSFovIhxiqSqaeo4", name = "add", arguments = "{"arg0": 5, "arg1": 5}" } for memoryId default
+15:54:44.003 [Test worker] INFO  com.kousenit.tools.Calculator - Called add with a=5, b=5
+15:54:44.003 [Test worker] DEBUG d.l.agent.tool.DefaultToolExecutor - Tool execution result: 10
+15:54:44.003 [Test worker] DEBUG d.l.agent.tool.DefaultToolExecutor - About to execute ToolExecutionRequest { id = "call_AFGuWPvUxp7EzGHQGOFniFOp", name = "sqrt", arguments = "{"arg0": 10}" } for memoryId default
+15:54:44.004 [Test worker] INFO  com.kousenit.tools.Calculator - Called sqrt with x=10
+15:54:44.004 [Test worker] DEBUG d.l.agent.tool.DefaultToolExecutor - Tool execution result: 3.1622776601683795
+15:54:46.954 [Test worker] INFO  com.kousenit.services.AssistantTest -
+gpt-3.5-turbo with tools: The sum of the number of letters in the words "hello" and "world" is 10.
+
+Now, let's calculate the square root of 10.
+
+1. Add the number of letters in "hello" (5) and "world" (5):
+   5 + 5 = 10
+
+2. Calculate the square root of 10:
+   √10 ≈ 3.16227
+
+Therefore, the square root of the sum of the numbers of letters in the words "hello" and "world" is approximately 3.16227.
+15:54:53.189 [Test worker] INFO  com.kousenit.services.AssistantTest -
+gpt-4-turbo-preview: First, calculate the number of letters in each word:
+
+- "hello" has 5 letters.
+- "world" has 5 letters.
+
+Next, find the sum of these numbers:
+
+5 (from "hello") + 5 (from "world") = 10
+
+Now, find the square root of the sum:
+
+The square root of 10 ≈ 3.162
+
+Therefore, the square root of the sum of the numbers of letters in the words "hello" and "world" is approximately 3.162.
+15:54:55.103 [Test worker] INFO  com.kousenit.services.AssistantTest -
+mistral-small: Step 1: Count the number of letters in each word.
+"hello" has 5 letters.
+"world" has 5 letters.
+
+Step 2: Add the number of letters together.
+5 (letters in "hello") + 5 (letters in "world") = 10
+
+Step 3: Find the square root of the sum.
+The square root of 10 is approximately 3.16227766017.
+
+So, the square root of the sum of the numbers of letters in the words "hello" and "world" is approximately 3.16227766017.
+15:54:58.538 [Test worker] INFO  com.kousenit.services.AssistantTest -
+gpt-3.5-turbo: Step 1: Find the number of letters in the word "hello"
+- "hello" has 5 letters
+
+Step 2: Find the number of letters in the word "world"
+- "world" has 5 letters
+
+Step 3: Add the number of letters in "hello" and "world"
+- 5 + 5 = 10
+
+Step 4: Find the square root of the sum
+- √10 ≈ 3.16227766017
+
+Therefore, the square root of the sum of the numbers of letters in the words "hello" and "world" is approximately 3.16227766017.
+

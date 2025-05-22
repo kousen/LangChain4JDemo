@@ -8,7 +8,7 @@ import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.service.AiServices;
 import org.junit.jupiter.api.Test;
@@ -20,9 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ConversationTest {
     private final Conversation conversation = new Conversation();
 
-    public final ChatLanguageModel gpt4o = AiModels.GPT_4_O;
+    public final ChatModel gpt4o = AiModels.GPT_4_O;
 
-    public final ChatLanguageModel gemini = AiModels.GEMINI_FLASH;
+    public final ChatModel gemini = AiModels.GEMINI_FLASH;
 
     @Test
     void statelessDemo() {
@@ -62,9 +62,9 @@ class ConversationTest {
                 });
     }
 
-    private Assistant createAssistant(ChatLanguageModel model) {
+    private Assistant createAssistant(ChatModel model) {
         return AiServices.builder(Assistant.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
     }

@@ -6,19 +6,19 @@ import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.AnthropicChatModelName;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 
 public class Conversation {
 
-    public final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
+    public final ChatModel gpt4o = OpenAiChatModel.builder()
             .apiKey(ApiKeys.OPENAI_API_KEY)
             .modelName(OpenAiChatModelName.GPT_4_O)
             .build();
 
-    public final ChatLanguageModel claude = AnthropicChatModel.builder()
+    public final ChatModel claude = AnthropicChatModel.builder()
             .apiKey(ApiKeys.ANTHROPIC_API_KEY)
             .modelName(AnthropicChatModelName.CLAUDE_3_5_SONNET_20240620)
             .build();
@@ -59,7 +59,7 @@ public class Conversation {
                 """);
         memory.add(userMessage);
 
-        ChatLanguageModel model;
+        ChatModel model;
         for (int i = 0; i < 5; i++) {
             model = i % 2 == 0 ? gpt4o : claude;
             ChatResponse response = model.chat(memory.messages());
@@ -79,10 +79,10 @@ public class Conversation {
         memory.add(initialPrompt);
 
         // Define the models to interact with (e.g., gpt4o and Claude)
-        ChatLanguageModel[] models = {gpt4o, claude};
+        ChatModel[] models = {gpt4o, claude};
 
         // Loop through each model, generating a conversation
-        for (ChatLanguageModel model : models) {
+        for (ChatModel model : models) {
             // Generate the model's response
             ChatResponse response = model.chat(memory.messages());
             memory.add(response.aiMessage()); // Add the response to the memory

@@ -1,6 +1,6 @@
 package com.kousenit.services;
 
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.model.ollama.OllamaChatModel;
@@ -13,7 +13,7 @@ public class OllamaModelTest {
 
     @Test
     void simple_example() {
-        ChatLanguageModel model = OllamaChatModel.builder()
+        ChatModel model = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
                 .modelName("orca-mini")
                 .build();
@@ -54,7 +54,7 @@ public class OllamaModelTest {
 
     @Test
     void json_output_example() {
-        ChatLanguageModel model = OllamaChatModel.builder()
+        ChatModel model = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434")
                 .modelName("orca-mini")
                 .build();

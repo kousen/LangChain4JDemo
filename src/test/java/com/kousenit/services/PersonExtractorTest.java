@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class PersonExtractorTest {
 
     private final PersonExtractor extractor = AiServices.builder(PersonExtractor.class)
-            .chatLanguageModel(AiModels.GPT_4_O)
+            .chatModel(AiModels.GPT_4_O)
             .tools(new DateTimeTool())
             .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
             .build();

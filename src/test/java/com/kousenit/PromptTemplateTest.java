@@ -1,6 +1,6 @@
 package com.kousenit;
 
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.input.Prompt;
 import dev.langchain4j.model.input.PromptTemplate;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PromptTemplateTest {
-    private final ChatLanguageModel model = AiModels.GPT_4_O;
+    private final ChatModel model = AiModels.GPT_4_O;
 
     @Test
     void promptTemplateWithParameters() {

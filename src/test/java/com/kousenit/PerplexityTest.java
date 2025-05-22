@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ChatRequest;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -26,14 +26,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @EnabledIfEnvironmentVariable(named = "PERPLEXITY_API_KEY", matches = ".*")
 public class PerplexityTest {
 
-    private static final List<ChatLanguageModel> perplexityModels =
+    private static final List<ChatModel> perplexityModels =
             List.of(AiModels.SONAR, AiModels.SONAR_PRO, AiModels.SONAR_REASONING);
 
-    private static List<ChatLanguageModel> perplexityModels() {
+    private static List<ChatModel> perplexityModels() {
         return perplexityModels;
     }
 
-    private void saveAnswerToMarkdownFile(String question, String answer, ChatLanguageModel model) {
+    private void saveAnswerToMarkdownFile(String question, String answer, ChatModel model) {
         String fileName = question.toLowerCase()
                 .replace(" ", "_").substring(0, 20);
         fileName = "%s_%s".formatted(fileName, model.getClass().getSimpleName());
@@ -50,7 +50,7 @@ public class PerplexityTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("perplexityModels")
-    void perplexityVsGPT(ChatLanguageModel model) {
+    void perplexityVsGPT(ChatModel model) {
         String question = """
                 Why should I use the Perplexity API instead of
                 GPT-4o, Claude 3.5, Gemini 1.5 Flash, or even
@@ -62,7 +62,7 @@ public class PerplexityTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("perplexityModels")
-    void starsInTheUniverse(ChatLanguageModel model) {
+    void starsInTheUniverse(ChatModel model) {
         String question = """
                 How many stars are there in the universe?
                 """;
@@ -72,7 +72,7 @@ public class PerplexityTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("perplexityModels")
-    void starsInTheUniverse_chatResponse(ChatLanguageModel model) {
+    void starsInTheUniverse_chatResponse(ChatModel model) {
         String question = """
                 How many stars are there in the universe?
                 """;
@@ -82,7 +82,7 @@ public class PerplexityTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("perplexityModels")
-    void starsInTheUniverse_userMessage(ChatLanguageModel model) {
+    void starsInTheUniverse_userMessage(ChatModel model) {
         String question = """
                 How many stars are there in the universe?
                 """;
@@ -93,7 +93,7 @@ public class PerplexityTest {
     @Test
     void citations_missing() {
         // Use OpenAiChatModel to access Perplexity API
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.PERPLEXITY_API_KEY)
                 .baseUrl("https://api.perplexity.ai")
                 .modelName("sonar")

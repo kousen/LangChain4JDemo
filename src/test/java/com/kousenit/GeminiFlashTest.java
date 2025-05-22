@@ -3,7 +3,7 @@ package com.kousenit;
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.output.TokenUsage;
 import org.junit.jupiter.api.Disabled;
@@ -16,7 +16,7 @@ import java.util.Base64;
 
 public class GeminiFlashTest {
 
-    private final ChatLanguageModel model = AiModels.GEMINI_FLASH;
+    private final ChatModel model = AiModels.GEMINI_FLASH;
 
     @Test
     public void testGenerateWithMessages() {

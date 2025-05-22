@@ -3,8 +3,8 @@ package com.kousenit;
 import dev.langchain4j.data.message.ImageContent;
 import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.StreamingChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OpenAiTest {
 
-    private final ChatLanguageModel model = AiModels.GPT_4_O;
+    private final ChatModel model = AiModels.GPT_4_O;
 
     @Test
     public void testGenerateWithMessages() {
@@ -38,7 +38,7 @@ public class OpenAiTest {
 
     @Test
     void gpt45chat() {
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName("gpt-4.5-preview")
                 .logRequests(true)
@@ -84,7 +84,7 @@ public class OpenAiTest {
 
     @Test
     void streamingChat() throws InterruptedException {
-        StreamingChatLanguageModel chatModel = OpenAiStreamingChatModel.builder()
+        StreamingChatModel chatModel = OpenAiStreamingChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_4_O_MINI)
                 .build();
@@ -133,7 +133,7 @@ public class OpenAiTest {
                 new ImageContent(base64Data, "image/png")
         );
 
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName("gpt-4.5-preview")
                 .build();
@@ -152,7 +152,7 @@ public class OpenAiTest {
                 ImageContent.from(imageUrl)
         );
 
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName("gpt-4.5-preview")
                 .build();

@@ -2,7 +2,7 @@ package com.kousenit.services.tavily;
 
 import com.kousenit.services.Assistant;
 import com.kousenit.services.openai.OpenAiResponsesService;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.service.AiServices;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 public class AIWebSearchTest {
 
-    private final ChatLanguageModel model = OpenAiChatModel.builder()
+    private final ChatModel model = OpenAiChatModel.builder()
             .modelName(OpenAiChatModelName.GPT_4_O_MINI)
             .apiKey(System.getenv("OPENAI_API_KEY"))
             .build();
@@ -18,7 +18,7 @@ public class AIWebSearchTest {
     @Test
     void searchWithOpenAi() {
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .tools(new OpenAiResponsesService())
                 .build();
 
@@ -32,7 +32,7 @@ public class AIWebSearchTest {
     @Test
     void searchWithTavily() {
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .tools(new TavilyService())
                 .build();
 

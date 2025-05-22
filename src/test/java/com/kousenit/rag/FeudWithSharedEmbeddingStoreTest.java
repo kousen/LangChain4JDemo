@@ -10,7 +10,7 @@ import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.AnthropicChatModelName;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.embedding.onnx.bgesmallen.BgeSmallEnEmbeddingModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
@@ -58,25 +58,25 @@ public class FeudWithSharedEmbeddingStoreTest {
                     """
     );
 
-    private static final ChatLanguageModel gpt4o = OpenAiChatModel.builder()
+    private static final ChatModel gpt4o = OpenAiChatModel.builder()
             .apiKey(System.getenv("OPENAI_API_KEY"))
             .modelName(OpenAiChatModelName.GPT_4_O)
             .maxRetries(1)
             .build();
 
-    private static final ChatLanguageModel claude = AnthropicChatModel.builder()
+    private static final ChatModel claude = AnthropicChatModel.builder()
             .apiKey(System.getenv("ANTHROPIC_API_KEY"))
             .modelName(AnthropicChatModelName.CLAUDE_3_5_SONNET_20240620)
             .maxRetries(1)
             .build();
 
-    private static final ChatLanguageModel gemini = GoogleAiGeminiChatModel.builder()
+    private static final ChatModel gemini = GoogleAiGeminiChatModel.builder()
             .apiKey(System.getenv("GOOGLEAI_API_KEY"))
             .modelName("gemini-2.0-flash-001")
             .maxRetries(1)
             .build();
 
-    private static final ChatLanguageModel mistral = MistralAiChatModel.builder()
+    private static final ChatModel mistral = MistralAiChatModel.builder()
             .apiKey(System.getenv("MISTRAL_API_KEY"))
             .modelName(MistralAiChatModelName.MISTRAL_LARGE_LATEST)
             .maxRetries(1)
@@ -112,19 +112,19 @@ public class FeudWithSharedEmbeddingStoreTest {
     }
 
     /**
-     * Provides the `ChatLanguageModel` instances for the parameterized test.
+     * Provides the `ChatModel` instances for the parameterized test.
      */
-    private static Stream<ChatLanguageModel> chatLanguageModels() {
+    private static Stream<ChatModel> chatLanguageModels() {
         return Stream.of(gpt4o, claude, gemini, mistral);
         //return Stream.of(claude, gemini, mistral);
     }
 
     /**
-     * Parameterized test for running RAG over different ChatLanguageModels.
+     * Parameterized test for running RAG over different ChatModels.
      */
     @ParameterizedTest(name = "RAG for {0}")
     @MethodSource("chatLanguageModels")
-    void rag_for_all_models(ChatLanguageModel model) {
+    void rag_for_all_models(ChatModel model) {
         // Create the content retriever
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
@@ -135,7 +135,7 @@ public class FeudWithSharedEmbeddingStoreTest {
 
         // Build the assistant with the shared content retriever
         Assistant assistant = AiServices.builder(Assistant.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .contentRetriever(contentRetriever)
                 .build();

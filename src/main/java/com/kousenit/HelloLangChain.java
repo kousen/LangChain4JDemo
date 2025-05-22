@@ -1,7 +1,7 @@
 package com.kousenit;
 
 import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
@@ -12,9 +12,9 @@ import dev.langchain4j.model.output.TokenUsage;
 public class HelloLangChain {
     public static void main(String[] args) {
 
-        // ChatLanguageModel model = OpenAiChatModel.withApiKey(ApiKeys.OPENAI_API_KEY);
+        // ChatModel model = OpenAiChatModel.withApiKey(ApiKeys.OPENAI_API_KEY);
 
-        ChatLanguageModel model = OpenAiChatModel.builder()
+        ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(OpenAiChatModelName.GPT_4_O)
                 .build();

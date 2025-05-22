@@ -2,7 +2,7 @@ package com.kousenit.extraction;
 
 import com.kousenit.services.Person;
 import com.kousenit.services.PersonExtractor;
-import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.service.AiServices;
 
 /**
@@ -16,9 +16,9 @@ public class PersonExtraction {
      *
      * @param model The chat language model to use for extraction
      */
-    public PersonExtraction(ChatLanguageModel model) {
+    public PersonExtraction(ChatModel model) {
         this.extractor = AiServices.builder(PersonExtractor.class)
-                .chatLanguageModel(model)
+                .chatModel(model)
                 .build();
     }
 
