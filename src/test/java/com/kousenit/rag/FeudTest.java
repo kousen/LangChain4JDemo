@@ -294,6 +294,7 @@ public class FeudTest {
 
     private boolean sizeOkay(int maxTokens, String documentText) {
         int tokenCount = encoding.countTokens(documentText);
+        System.out.println("Token count: " + tokenCount);
         return tokenCount < maxTokens;
     }
 }
