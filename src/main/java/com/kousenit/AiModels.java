@@ -63,7 +63,7 @@ public class AiModels {
 
     public static final ChatModel CLAUDE_4_SONNET = AnthropicChatModel.builder()
             .apiKey(ApiKeys.ANTHROPIC_API_KEY)
-            .modelName("claude-sonnet-4-20250514")
+            .modelName("claude-sonnet-4-0")
             .logRequests(true)
             .logResponses(true)
             .build();
@@ -75,7 +75,7 @@ public class AiModels {
 
     public static final ChatModel GEMINI_FLASH = GoogleAiGeminiChatModel.builder()
             .apiKey(ApiKeys.GOOGLEAI_API_KEY)
-            .modelName("gemini-1.5-flash")
+            .modelName("gemini-2.5-flash")
             .build();
 
     public static final ChatModel SONAR = OpenAiChatModel.builder()

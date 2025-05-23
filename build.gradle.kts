@@ -28,13 +28,13 @@ dependencies {
 
     implementation("dev.langchain4j:langchain4j-chroma")
 
+    // Tokenizer for OpenAI to estimate counts
     implementation("com.knuddels:jtokkit:1.1.0")
 
     // Embeddings and loaders
     implementation("dev.langchain4j:langchain4j-embeddings")
     implementation("dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2")
     implementation("dev.langchain4j:langchain4j-embeddings-bge-small-en")
-    // PDFBox 2.0.x is required for LangChain4j document parser
     implementation("dev.langchain4j:langchain4j-document-parser-apache-pdfbox")
     
     // Exclude all PDFBox dependencies from Tika to avoid version conflicts
