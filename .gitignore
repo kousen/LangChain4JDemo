@@ -42,3 +42,6 @@ bin/
 .DS_Store
 /.idea/
 /.cache_ggshield
+
+### Claude Code ###
+.claude/settings.local.json
