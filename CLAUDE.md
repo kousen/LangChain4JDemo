@@ -27,3 +27,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - String literals: Use text blocks (""") for multi-line strings
 - Conditional expressions: Use modern switch expressions with pattern matching
 - Testing: JUnit 5 with descriptive method names, AssertJ for assertions
+
+## Project Management
+- Create GitHub issues for new features, enhancements, and significant updates
+- Use descriptive issue titles and include task checklists
+- Reference related commits in issue descriptions
+- Use appropriate labels (enhancement, bug, security, etc.)
+- Assign issues to track ownership and progress
