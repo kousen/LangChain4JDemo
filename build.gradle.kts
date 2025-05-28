@@ -8,7 +8,7 @@ version = "1.0-SNAPSHOT"
 
 dependencies {
     // Groovy
-    implementation(platform("org.apache.groovy:groovy-bom:4.0.25"))
+    implementation(platform("org.apache.groovy:groovy-bom:4.0.27"))
     implementation("org.apache.groovy:groovy-json")
     implementation("org.apache.groovy:groovy-datetime")
     testImplementation("org.apache.groovy:groovy-test")
@@ -49,18 +49,18 @@ dependencies {
     implementation("dev.langchain4j:langchain4j-document-transformer-jsoup")
 
     // Logging
-    implementation("org.slf4j:slf4j-api:2.0.12")
-    implementation("ch.qos.logback:logback-classic:1.5.13")
-    implementation("org.apache.logging.log4j:log4j-core:2.23.1")
+    implementation("org.slf4j:slf4j-api:2.0.16")
+    implementation("ch.qos.logback:logback-classic:1.5.18")
+    implementation("org.apache.logging.log4j:log4j-core:2.24.3")
 
     // Make CVE warnings go away
     implementation("org.apache.poi:poi-ooxml:5.4.0")
     implementation("net.minidev:json-smart:2.5.2")
 
     // Testing
-    testImplementation(platform("org.junit:junit-bom:5.11.0"))
+    testImplementation(platform("org.junit:junit-bom:5.12.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation("org.assertj:assertj-core:3.26.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
