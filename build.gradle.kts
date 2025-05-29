@@ -25,6 +25,7 @@ dependencies {
     implementation("dev.langchain4j:langchain4j-google-ai-gemini")
     implementation("dev.langchain4j:langchain4j-ollama")
     implementation("dev.langchain4j:langchain4j-anthropic")
+    implementation("dev.langchain4j:langchain4j-mcp")
 
     implementation("dev.langchain4j:langchain4j-chroma")
 

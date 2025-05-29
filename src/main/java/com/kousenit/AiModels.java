@@ -29,6 +29,16 @@ public class AiModels {
             .modelName("gpt-4.1-2025-04-14")
             .build();
 
+    public static final ChatModel GPT_4_1_MINI = OpenAiChatModel.builder()
+            .apiKey(ApiKeys.OPENAI_API_KEY)
+            .modelName("gpt-4.1-mini-2025-04-14")
+            .build();
+
+    public static final ChatModel GPT_4_1_NANO = OpenAiChatModel.builder()
+            .apiKey(ApiKeys.OPENAI_API_KEY)
+            .modelName("gpt-4.1-nano-2025-04-14")
+            .build();
+
     public final static ChatModel MISTRAL_SMALL_MODEL = MistralAiChatModel.builder()
             .apiKey(ApiKeys.MISTRAL_API_KEY)
             .modelName(String.valueOf(MistralAiChatModelName.MISTRAL_SMALL_LATEST))
