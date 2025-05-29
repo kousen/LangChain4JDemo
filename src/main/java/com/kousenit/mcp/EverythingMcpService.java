@@ -13,6 +13,8 @@ import dev.langchain4j.service.tool.ToolProvider;
 import java.time.Duration;
 import java.util.List;
 
+// See https://github.com/modelcontextprotocol/servers/tree/main/src/everything
+// for details on the Everything MCP server and how to run it locally
 public class EverythingMcpService implements AutoCloseable {
     private final McpClient mcpClient;
     private final Assistant assistant;
@@ -25,7 +27,7 @@ public class EverythingMcpService implements AutoCloseable {
         McpTransport transport = new HttpMcpTransport.Builder()
                 .sseUrl(sseUrl)
                 .timeout(Duration.ofSeconds(60))
-                .logRequests(true)
+                .logRequests(false)
                 .logResponses(false)
                 .build();
 
