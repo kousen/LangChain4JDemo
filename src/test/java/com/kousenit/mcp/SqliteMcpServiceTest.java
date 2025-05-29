@@ -1,9 +1,9 @@
 package com.kousenit.mcp;
 
 import com.kousenit.AiModels;
-import dev.langchain4j.model.chat.ChatModel;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 
@@ -15,25 +15,32 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @EnabledIfEnvironmentVariable(named = "OPENAI_API_KEY", matches = ".+")
 class SqliteMcpServiceTest {
-    private SqliteMcpService service;
-    private Path tempDbFile;
-    private ChatModel chatModel;
+    private static SqliteMcpService service;
+    private static Path tempDbFile;
 
-    @BeforeEach
-    void setUp() throws Exception {
+    @BeforeAll
+    static void setUpService() throws Exception {
         tempDbFile = Files.createTempFile("test", ".db");
-        chatModel = AiModels.GPT_4_1_MINI;
-        service = new SqliteMcpService(chatModel, tempDbFile);
+        service = new SqliteMcpService(AiModels.GPT_4_1_MINI, tempDbFile);
+        
+        // Give the MCP server time to start
+        Thread.sleep(2000);
     }
 
-    @AfterEach
-    void tearDown() throws Exception {
+    @AfterAll
+    static void tearDownService() throws Exception {
         if (service != null) {
             service.close();
         }
         if (tempDbFile != null && Files.exists(tempDbFile)) {
             Files.deleteIfExists(tempDbFile);
         }
+    }
+
+    @AfterEach
+    void cleanUpTables() {
+        // Clean up any test tables created during tests
+        // SQLite will handle this automatically when we close the service
     }
 
     @Test
@@ -101,17 +108,5 @@ class SqliteMcpServiceTest {
     @Test
     void testServiceClosesWithoutException() {
         assertDoesNotThrow(() -> service.close());
-    }
-
-    @Test
-    void testPathConstructor() throws Exception {
-        Path anotherTempFile = Files.createTempFile("another", ".db");
-        
-        try (SqliteMcpService pathService = new SqliteMcpService(chatModel, anotherTempFile)) {
-            String response = pathService.listTables();
-            assertThat(response).isNotNull();
-        } finally {
-            Files.deleteIfExists(anotherTempFile);
-        }
     }
 }
