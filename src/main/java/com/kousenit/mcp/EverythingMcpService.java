@@ -15,6 +15,8 @@ import java.util.List;
 
 // See https://github.com/modelcontextprotocol/servers/tree/main/src/everything
 // for details on the Everything MCP server and how to run it locally
+// On a Mac, you can run it with:
+// npx @modelcontextprotocol/server-everything sse
 public class EverythingMcpService implements AutoCloseable {
     private final McpClient mcpClient;
     private final Assistant assistant;
